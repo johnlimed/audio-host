@@ -12,6 +12,7 @@ export interface DB {
   db: Loki,
   close: () => void,
   insert: <I>(collectionName: COLLECTION_NAME, values: I) => I,
+  get: <I>(collectionName: COLLECTION_NAME, value: any) => I[],
 }
 
 export const initDB = (log: Logger): DB => {
@@ -54,6 +55,10 @@ export const initDB = (log: Logger): DB => {
     db,
     insert: <I>(collectionName: COLLECTION_NAME, values: I): I => {
       return db.getCollection(collectionName).insert(values);
+    },
+    get: <I>(collectionName: COLLECTION_NAME, value: any): I[] => {
+      const col = db.getCollection(collectionName);
+      return col.find(value);
     },
     close: () => { db.close() },
   };
