@@ -1,7 +1,8 @@
 import http from 'http';
 import { Logger } from "winston";
+import { DB } from '../database';
 
-export const shutdown = (logger: Logger, db: Loki, server: http.Server) => {
+export const shutdown = (logger: Logger, db: DB, server: http.Server) => {
   let shutdown = false;
 
   const exit = () => {
