@@ -2,7 +2,6 @@ import { AuthenticationError } from "../error/AuthenticationError";
 import { verifyJWT } from "../lib/jwt";
 
 export const jwtMiddleware = async (ctx, next) => {
-  console.log(ctx.header);
   const { authorization } = ctx.request.header;
 
   if (authorization) {
