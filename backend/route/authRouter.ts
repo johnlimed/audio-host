@@ -11,6 +11,7 @@ import { ServerContext } from "../type/ServerContext";
 
 import { UserExistError } from "../error/UserExistError";
 import { AuthenticationError } from "../error/AuthenticationError";
+import { generateUUID } from "./useCase/generateUUID";
 
 const authRouter = new Router();
 
@@ -28,15 +29,15 @@ authRouter.post<ServerState, ServerContext, ReqRegister>('/register', async (ctx
   const { username, password } = ctx.body;
 
   const existingUser = ctx.db.get<IUser>(COLLECTION_NAME.USER, { username });
-  
+
   if (existingUser && existingUser.length > 0) {
     ctx.log.info("[auth][register] Existing user found", { username, password });
     throw new UserExistError();
   } else {
     ctx.log.info("[auth][register] Registering new user", { username, password });
     const hashedPassword = await argon2.hash(password);
-
-    ctx.db.insert<IUser>(COLLECTION_NAME.USER, { username, password: hashedPassword });
+    const id = generateUUID();
+    ctx.db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword });
     ctx.body = "User registered.";
     ctx.status = 200;
   }

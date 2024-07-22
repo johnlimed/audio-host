@@ -1,6 +1,7 @@
 import loki from "lokijs";
 import { LokiFsAdapter } from "lokijs";
 import { Logger } from "winston";
+import { generateUUID } from "../../route/useCase/generateUUID";
 
 export enum COLLECTION_NAME {
   USER = "users",
@@ -31,9 +32,9 @@ export const initDB = (log: Logger): DB => {
       const values = db.getCollection(collection);
 
       if (values === null) {
-        if (collection === "users") {
+        if (collection === COLLECTION_NAME.USER) {
           const newCollection = db.addCollection(collection);
-          newCollection.insert({ name: "admin", password: "", salt: "" });
+          newCollection.insert({ username: "admin", password: "1234", id: generateUUID() });
         } else {
           db.addCollection(collection);
         }
@@ -43,7 +44,7 @@ export const initDB = (log: Logger): DB => {
     dbReport();
   }
 
-  const db = new loki('./database/audiohost.db', {
+  const db = new loki('./lib/database/audiohost.db', {
     adapter: new LokiFsAdapter(),
     autoload: true,
     autoloadCallback: databaseInitialize,
