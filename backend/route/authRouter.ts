@@ -2,8 +2,8 @@ import Router from "@koa/router";
 import argon2 from "argon2";
 import jwt from "jsonwebtoken";
 
-import { Log } from "../logger";
-import { COLLECTION_NAME, } from "../database";
+import { Log } from "../lib/logger";
+import { COLLECTION_NAME, } from "../lib/database";
 
 import { IUser } from "../type/IUser";
 import { ServerState } from "../type/ServerState";
@@ -36,8 +36,6 @@ authRouter.post<ServerState, ServerContext, ReqRegister>('/register', async (ctx
     ctx.log.info("[auth][register] Registering new user", { username, password });
     const hashedPassword = await argon2.hash(password);
 
-    jwt.sign({ username });
-
     ctx.db.insert<IUser>(COLLECTION_NAME.USER, { username, password: hashedPassword });
     ctx.body = "User registered.";
     ctx.status = 200;
@@ -69,8 +67,10 @@ authRouter.post<ServerState, ServerContext, ReqLogin>('/login', async (ctx, next
     ctx.log.error("[auth][login] Wrong password", username);
     throw new AuthenticationError();
   }
-
+  console.log(user)
   // TODO: JWT
+  jwt.sign({ username });
+
   ctx.body = "success";
 
   await next();

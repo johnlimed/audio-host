@@ -1,6 +1,6 @@
 import http from 'http';
 import { Logger } from "winston";
-import { DB } from '../database';
+import { DB } from '../lib/database';
 
 export const shutdown = (logger: Logger, db: DB, server: http.Server) => {
   let shutdown = false;

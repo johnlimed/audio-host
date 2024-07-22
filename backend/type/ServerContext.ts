@@ -1,6 +1,6 @@
 import { Logger } from "winston"
 import { BaseContext } from "koa";
-import { DB } from "../database";
+import { DB } from "../lib/database";
 
 export interface ServerContext extends BaseContext {
   db: DB;

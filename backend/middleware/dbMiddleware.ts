@@ -1,5 +1,5 @@
 import { DefaultContext } from "koa";
-import { DB } from "../database";
+import { DB } from "../lib/database";
 
 export const dbMiddleware = (db: DB) => {
   return async (ctx: DefaultContext, next) => {

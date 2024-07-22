@@ -2,15 +2,15 @@ import Koa from "koa";
 import http from 'http';
 import bodyParser from "koa-bodyparser";
 
-import { initDB } from "./database";
-import { Log } from "./logger";
+import { initDB } from "./lib/database";
+import { Log } from "./lib/logger";
 import { loggerMiddleware } from "./middleware/loggerMiddleware";
 import { errorMiddleware } from "./middleware/errorMiddleware";
 import { dbMiddleware } from "./middleware/dbMiddleware";
 import { shutdown } from "./middleware/shutdown";
 
-import router from "./router"; 
-import authRouter from "./auth";
+import router from "./route/router"; 
+import authRouter from "./route/authRouter";
 import { ServerState } from "./type/ServerState";
 import { ServerContext } from "./type/ServerContext";
 
