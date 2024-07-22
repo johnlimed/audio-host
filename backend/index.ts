@@ -1,6 +1,6 @@
 import Koa from "koa";
 import router from "./router";
-import { db } from "./database";
+import { initDB } from "./database";
 import { logger } from "./logger";
 import { loggerMiddleware } from "./middleware/loggerMiddleware";
 import { errorMiddleware } from "./middleware/errorMiddleware";
@@ -9,7 +9,8 @@ import { dbMiddleware } from "./middleware/dbMiddleware";
 const startServer = () => {
   const app = new Koa();
   const port = 3000;
-  
+  const db = initDB(logger);
+
   app.use(loggerMiddleware(logger));
   app.use(dbMiddleware(db));
   app.on("error", errorMiddleware);
@@ -24,7 +25,6 @@ const startServer = () => {
     logger.info("[dbMiddleware] flushing database");
     db.close();
   });
-
 }
 
 startServer();
