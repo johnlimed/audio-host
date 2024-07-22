@@ -1,0 +1,27 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "noEmit": true,
+        "lib": [
+            "es2017",
+            "esnext.asynciterable"
+        ],
+        "removeComments": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "preserveConstEnums": true,
+        "target": "es2017",
+        "outDir": "lib",
+        "sourceMap": true
+    },
+    "include": [
+        "./**/*.ts"
+    ],
+    "exclude": [
+        "node_modules/**/*",
+        ".vscode/**/*"
+    ]
+}
