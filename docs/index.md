@@ -40,6 +40,21 @@ Username taken. Create a new user with another username.
 status: 401
 Issue with username or password.  
 
+### AuthenticationExpiredError
+status: 401  
+message: Token expired  
+Re-login  
+
+### AuthenicationMalformError 
+status: 401  
+message: Token Malformed  
+Check jwt token  
+
+### AuthenticationMethodError  
+status: 401  
+message: Unsupported authencation method  
+Check that authentication method is set to bearer
+
 ## Authentication
 Using [argon2](https://github.com/ranisalt/node-argon2)
 
@@ -62,6 +77,7 @@ Response
 ```
 
 ### /login
+If login is called with a jwt token set in the authentication header, the token will be checked and if still valid, the user will be logged in.  
 ```javascript
 Example request
 {
@@ -71,6 +87,9 @@ Example request
 
 Errors
 [Authentication error](#AuthenticationError)
+[Authentication expired error](#AuthenticationExpiredError)
+[Authentication malformed error](#AuthenticationMalformError)
+[Authentication method error](#AuthenticationMethodError)
 
 Response
 {

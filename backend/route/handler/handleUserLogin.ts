@@ -10,7 +10,7 @@ import { ResHandler } from "../../type/ResHandler";
 
 import { AuthenticationError } from "../../error/AuthenticationError";
 
-export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, jwtToken?: string): Promise<ResHandler> => {
+export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, authstring?: string): Promise<ResHandler> => {
   const { username, password } = req; 
   
   const user = db.get<IUser>(COLLECTION_NAME.USER, { username });
@@ -22,14 +22,14 @@ export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, jwtTok
   /**
    * Check for jwt token and verify it.
    */
-  if (jwtToken) {
+  if (authstring) {
     log.info("[auth][login] JWT Found, verifying token.");
-    const payload = verifyJWT(log, jwtToken);
+    const payload = verifyJWT(log, authstring);
 
     if (payload && Object.keys(payload).length > 0) {
       log.info(`[auth][login] JWT verified, bypassing check for ${payload.username}`);
       return {
-        body: { jwt: jwtToken }
+        body: { jwt: authstring.split(" ")[1] }
       }
     }
   }
