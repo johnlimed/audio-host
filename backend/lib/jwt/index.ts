@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
+import { Logger } from "winston";
 
 import { JWTPayload } from "../../type/IJWTPayload";
 
 import { AuthenticationMethodError } from "../../error/AuthenticationMethodError";
 import { AuthenticationError } from "../../error/AuthenticationError";
-import { Logger } from "winston";
 import { AuthenticationMalformError } from "../../error/AuthenticationMalformError";
 import { AuthenticationExpiredError } from "../../error/AuthenticationExpiredError";
 

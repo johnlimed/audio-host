@@ -5,6 +5,9 @@
 Koa server
 Endpoints > Handler > Use cases
 
+Key points: design of server employs SOLID principles.  
+Quite a fair bit of abstraction of libraries and dependencies so that we can mock them in our test cases.  
+
 ## Middlewares
 ### loggerMiddleware
 stores winston logger in context (ctx.log)
@@ -19,7 +22,6 @@ DB interface to abstract Loki enabling easy extension and replacement of DB libr
 Loki DB stores in folder: database/audiohost.db  
 Reason for using LokiJS is in the event messaging queue, heavier nosql equivalent like mongo and S3-like storage cannot be implemented because of the time.  
 
-
 ### shutdown
 graceful shutdown, close db.  
 
@@ -30,8 +32,9 @@ Standard koa bodyparser middleware, enabling parsing of json body object.
 Checks for session via jwtMiddleware  
 Store username and id of user in token  
 
-## Errors
 
+
+## Errors
 ### UserExistError
 status: 400
 Username taken. Create a new user with another username. 
@@ -55,8 +58,12 @@ status: 401
 message: Unsupported authencation method  
 Check that authentication method is set to bearer
 
+
+
 ## Authentication
 Using [argon2](https://github.com/ranisalt/node-argon2)
+
+
 
 ## Endpoints
 ### /register

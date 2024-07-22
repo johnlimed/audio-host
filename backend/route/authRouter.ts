@@ -34,8 +34,9 @@ authRouter.post<ServerState, ServerContext, ReqLogin>('/login', async (ctx, next
   await next();
 });
 
-// authRouter.get('/logout', (ctx) => {
-//   ctx.body = "logout";
-// });
+authRouter.post('/logout', async (ctx, next) => {
+  ctx.body = "logout success";
+  await next();
+});
 
 export default authRouter;

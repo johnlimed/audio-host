@@ -8,7 +8,7 @@ export enum COLLECTION_NAME {
 export const COLLECTIONS = Object.values(COLLECTION_NAME);
 
 export interface DB {
-  db: Loki,
+  db: () => Loki,
   close: () => void,
   insert: <I>(collectionName: COLLECTION_NAME, values: I) => I,
   get: <I>(collectionName: COLLECTION_NAME, value: any) => I[],
@@ -51,7 +51,7 @@ export const initDB = (log: Logger): DB => {
   });
 
   return {
-    db,
+    db: () => db,
     insert: <I>(collectionName: COLLECTION_NAME, values: I): I => {
       return db.getCollection(collectionName).insert(values);
     },
