@@ -1,6 +1,5 @@
 import Router from "@koa/router";
 import argon2 from "argon2";
-import jwt from "jsonwebtoken";
 
 import { Log } from "../lib/logger";
 import { COLLECTION_NAME, } from "../lib/database";
@@ -9,9 +8,9 @@ import { IUser } from "../type/IUser";
 import { ServerState } from "../type/ServerState";
 import { ServerContext } from "../type/ServerContext";
 
-import { UserExistError } from "../error/UserExistError";
 import { AuthenticationError } from "../error/AuthenticationError";
-import { generateUUID } from "./useCase/generateUUID";
+import { signJWT } from "../lib/jwt";
+import { handleUserRegister } from "./handler/handleUserRegister";
 
 const authRouter = new Router();
 
@@ -26,21 +25,9 @@ interface ReqRegister {
 }
 
 authRouter.post<ServerState, ServerContext, ReqRegister>('/register', async (ctx, next) => {
-  const { username, password } = ctx.body;
-
-  const existingUser = ctx.db.get<IUser>(COLLECTION_NAME.USER, { username });
-
-  if (existingUser && existingUser.length > 0) {
-    ctx.log.info("[auth][register] Existing user found", { username, password });
-    throw new UserExistError();
-  } else {
-    ctx.log.info("[auth][register] Registering new user", { username, password });
-    const hashedPassword = await argon2.hash(password);
-    const id = generateUUID();
-    ctx.db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword });
-    ctx.body = "User registered.";
-    ctx.status = 200;
-  }
+  const res = await handleUserRegister(ctx.log, ctx.db, ctx.body);
+  ctx.body = res.body;
+  ctx.status = res.status;
 
   await next();
 });
@@ -68,11 +55,13 @@ authRouter.post<ServerState, ServerContext, ReqLogin>('/login', async (ctx, next
     ctx.log.error("[auth][login] Wrong password", username);
     throw new AuthenticationError();
   }
-  console.log(user)
-  // TODO: JWT
-  jwt.sign({ username });
+  
+  const token = signJWT({ username, id: user[0].id });
 
-  ctx.body = "success";
+  ctx.state.token = token;
+  ctx.state.username = username;
+  ctx.state.id = user[0].id;
+  ctx.body = token;
 
   await next();
 });

@@ -6,4 +6,5 @@ export interface ServerContext extends BaseContext {
   db: DB;
   log: Logger;
   body: any;
+  jwt?: string;
 }

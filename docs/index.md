@@ -26,6 +26,10 @@ graceful shutdown, close db.
 ### bodyparser
 Standard koa bodyparser middleware, enabling parsing of json body object.  
 
+### jwtMiddleware
+Checks for session via jwtMiddleware  
+Store username and id of user in token  
+
 ## Errors
 
 ### UserExistError
