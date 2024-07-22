@@ -1,12 +1,15 @@
 import Router from "@koa/router";
 import argon2 from "argon2";
+import jwt from "jsonwebtoken";
 
-import { UserExistError } from "../error/UserExistError";
-import { IUser } from "../type/IUser";
+import { Log } from "../logger";
 import { COLLECTION_NAME, } from "../database";
+
+import { IUser } from "../type/IUser";
 import { ServerState } from "../type/ServerState";
 import { ServerContext } from "../type/ServerContext";
-import { Log } from "../logger";
+
+import { UserExistError } from "../error/UserExistError";
 import { AuthenticationError } from "../error/AuthenticationError";
 
 const authRouter = new Router();
@@ -32,6 +35,9 @@ authRouter.post<ServerState, ServerContext, ReqRegister>('/register', async (ctx
   } else {
     ctx.log.info("[auth][register] Registering new user", { username, password });
     const hashedPassword = await argon2.hash(password);
+
+    jwt.sign({ username });
+
     ctx.db.insert<IUser>(COLLECTION_NAME.USER, { username, password: hashedPassword });
     ctx.body = "User registered.";
     ctx.status = 200;
