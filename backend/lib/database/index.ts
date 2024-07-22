@@ -1,7 +1,5 @@
-import loki from "lokijs";
-import { LokiFsAdapter } from "lokijs";
 import { Logger } from "winston";
-import { generateUUID } from "../../route/useCase/generateUUID";
+import loki, { LokiFsAdapter } from "lokijs";
 
 export enum COLLECTION_NAME {
   USER = "users",
@@ -28,18 +26,18 @@ export const initDB = (log: Logger): DB => {
   const databaseInitialize = () => {
     // on the first load of (non-existent database), we will have no collections so we can 
     // detect the absence of our collections and add (and configure) them now.
-    COLLECTIONS.forEach((collection: string) => {
+    Promise.all(COLLECTIONS.map((collection: string) => {
       const values = db.getCollection(collection);
 
       if (values === null) {
         if (collection === COLLECTION_NAME.USER) {
           const newCollection = db.addCollection(collection);
-          newCollection.insert({ username: "admin", password: "1234", id: generateUUID() });
+          newCollection.insert({ username: "admin", password: "$argon2id$v=19$m=65536,t=3,p=4$svTr0wptoFUtsi5uOwrF4g$VWqZTW7UjsJnb7I9MfTCoBvKPN7Mqs/dmzw8BJW/fEA", id: "99ae8e89-a04b-48fa-a3b0-e38013b167d1" });
         } else {
           db.addCollection(collection);
         }
       }
-    });
+    }));
 
     dbReport();
   }

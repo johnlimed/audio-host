@@ -48,22 +48,32 @@ Using [argon2](https://github.com/ranisalt/node-argon2)
 ```javascript
 Example request
 {
-  username: string,
-  password: string,
+  username: string;
+  password: string;
 }
 
 Errors
 [User Exist](#UserExistError)
+
+Response
+{
+  
+}
 ```
 
 ### /login
 ```javascript
 Example request
 {
-  username: string,
-  password: string,
+  username: string;
+  password: string;
 }
 
 Errors
 [Authentication error](#AuthenticationError)
+
+Response
+{
+  jwt: string;
+}
 ```

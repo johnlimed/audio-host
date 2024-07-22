@@ -28,8 +28,7 @@ authRouter.post<ServerState, ServerContext, ReqRegister>('/register', async (ctx
 
 
 authRouter.post<ServerState, ServerContext, ReqLogin>('/login', async (ctx, next) => {
-  const res = await handleUserLogin(ctx.log, ctx.db, ctx.body);
-  ctx.state = res.state;
+  const res = await handleUserLogin(ctx.log, ctx.db, ctx.body, ctx.request.header.authorization);
   ctx.body = res.body;
 
   await next();
