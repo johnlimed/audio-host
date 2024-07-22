@@ -6,11 +6,7 @@ import { IUser } from "../../type/IUser";
 import { UserExistError } from "../../error/UserExistError";
 import { generateUUID } from "../useCase/generateUUID";
 import { ResHandler } from "../../type/ResHandler";
-
-interface ReqRegister {
-  username: string;
-  password: string;
-}
+import { ReqRegister } from "../../type/ReqRegister";
 
 export const handleUserRegister = async (log: Logger, db: DB, req: ReqRegister): Promise<ResHandler> => {
   const { username, password } = req;
