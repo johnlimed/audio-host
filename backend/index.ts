@@ -1,16 +1,30 @@
 import Koa from "koa";
+import router from "./router";
+import { db } from "./database";
+import { logger } from "./logger";
 import { loggerMiddleware } from "./middleware/loggerMiddleware";
 import { errorMiddleware } from "./middleware/errorMiddleware";
+import { dbMiddleware } from "./middleware/dbMiddleware";
 
 const startServer = () => {
   const app = new Koa();
   const port = 3000;
   
-  app.use(loggerMiddleware);
+  app.use(loggerMiddleware(logger));
+  app.use(dbMiddleware(db));
   app.on("error", errorMiddleware);
+  app.use(router.routes());
+  app.use(router.allowedMethods());
+
   app.listen(port, () => {
-    console.log(`🚀 Server is running on port http://localhost:${port}/`);
+    logger.info(`🚀 Server is running on port http://localhost:${port}/`);
   });
+
+  process.on('SIGINT', function () {
+    logger.info("[dbMiddleware] flushing database");
+    db.close();
+  });
+
 }
 
 startServer();

@@ -1,13 +1,9 @@
-import { DefaultContext } from "koa";
 import winston from "winston";
+import { DefaultContext } from "koa";
 
-export const loggerMiddleware = async (ctx: DefaultContext, next) => {
-  const logger = winston.createLogger({
-    transports: [
-      new winston.transports.Console(),
-      // new winston.transports.File({ filename: 'combined.log' }) // for writing to file
-    ]
-  });
-  ctx.log = logger;
-  await next();
+export const loggerMiddleware = (logger: winston.Logger) => {
+  return async (ctx: DefaultContext, next) => {
+    ctx.log = logger;
+    await next();
+  }
 }
