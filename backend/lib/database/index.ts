@@ -3,6 +3,7 @@ import loki, { LokiFsAdapter } from "lokijs";
 
 export enum COLLECTION_NAME {
   USER = "users",
+  ROLE = "roles",
 }
 
 export const COLLECTIONS = Object.values(COLLECTION_NAME);
@@ -29,7 +30,7 @@ export const initDB = (log: Logger): DB => {
   const databaseInitialize = () => {
     // on the first load of (non-existent database), we will have no collections so we can 
     // detect the absence of our collections and add (and configure) them now.
-    Promise.all(COLLECTIONS.map((collection: string) => {
+    COLLECTIONS.map((collection: string) => {
       const values = db.getCollection(collection);
 
       if (values === null) {
@@ -41,7 +42,7 @@ export const initDB = (log: Logger): DB => {
           db.addCollection(collection);
         }
       }
-    }));
+    });
 
     dbReport();
   }

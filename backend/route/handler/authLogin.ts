@@ -10,7 +10,7 @@ import { ResHandler } from "../../type/ResHandler";
 
 import { AuthenticationError } from "../../error/AuthenticationError";
 
-export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, authstring?: string): Promise<ResHandler> => {
+export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, authstring?: string): Promise<ResHandler<{ jwt: string}>> => {
   const { username, password } = req; 
   
   const user = db.get<IUser>(COLLECTION_NAME.USER, { username });

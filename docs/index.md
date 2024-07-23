@@ -75,7 +75,7 @@ Using [argon2](https://github.com/ranisalt/node-argon2)
 
 
 ## Endpoints
-### /auth/login
+### POST /auth/login
 If login is called with a jwt token set in the authentication header, the token will be checked and if still valid, the user will be logged in.  
 ```javascript
 Example request
@@ -96,7 +96,7 @@ Response
 [Authentication malformed error](#AuthenticationMalformError)  
 [Authentication method error](#AuthenticationMethodError)  
 
-### /auth/logout
+### POST /auth/logout
 ```javascript
 Example request
 {
@@ -107,7 +107,7 @@ Response
 "logout success"
 ```
 
-### /user/register
+### POST /user
 ```javascript
 Example request
 {
@@ -120,3 +120,4 @@ Response
 ```
 #### Errors
 [User Exist](#UserExistError)
+

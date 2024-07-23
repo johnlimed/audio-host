@@ -10,9 +10,9 @@ import { UserExistError } from "../../error/UserExistError";
 
 import { IUser } from "../../type/IUser";
 import { ResHandler } from "../../type/ResHandler";
-import { ReqRegister } from "../../type/ReqRegister";
+import { ReqUserCreate } from "../../type/ReqUserCreate";
 
-export const handleUserCreate = async (log: Logger, db: DB, req: ReqRegister): Promise<ResHandler> => {
+export const handleUserCreate = async (log: Logger, db: DB, req: ReqUserCreate): Promise<ResHandler<string>> => {
   const { username, password, name } = req;
 
   if (!username || !password || !name) throw new InputError("One of the input is missing. Check input.");
@@ -27,7 +27,7 @@ export const handleUserCreate = async (log: Logger, db: DB, req: ReqRegister): P
   log.info("[user][create] Registering new user", { username, password, name });
   const hashedPassword = await hashPassword(password);
   const id = generateUUID();
-  db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name });
+  db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name, archive: false });
   
   return {
     body: "successfully registered user.",

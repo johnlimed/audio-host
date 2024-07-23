@@ -3,7 +3,7 @@ import Router from "@koa/router";
 import { Log } from "../lib/logger";
 import { ServerState } from "../type/ServerState";
 import { ServerContext } from "../type/ServerContext";
-import { ReqRegister } from "../type/ReqRegister";
+import { ReqUserCreate } from "../type/ReqUserCreate";
 import { handleUserCreate } from "./handler/userCreate";
 import { ReqUserUpdate } from "../type/ReqUserUpdate";
 import { handleUserUpdate } from "./handler/userUpdate";
@@ -18,7 +18,7 @@ userRouter.use(async (ctx, next) => {
 });
 
 
-userRouter.post<ServerState, ServerContext, ReqRegister>('/', async (ctx, next) => {
+userRouter.post<ServerState, ServerContext, ReqUserCreate>('/', async (ctx, next) => {
   const res = await handleUserCreate(ctx.log, ctx.db, ctx.body);
   ctx.body = res.body;
   ctx.status = res.status;

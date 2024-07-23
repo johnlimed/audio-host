@@ -1,5 +1,4 @@
-
-export interface ReqRegister {
+export interface ReqUserCreate {
   username: string;
   password: string;
   name: string;
