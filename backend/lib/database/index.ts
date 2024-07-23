@@ -36,8 +36,12 @@ export const initDB = (log: Logger): DB => {
       if (values === null) {
         if (collection === COLLECTION_NAME.USER) {
           const newCollection = db.addCollection(collection);
-          newCollection.insert({ id: "99ae8e89-a04b-48fa-a3b0-e38013b167d1", username: "admin", password: "$argon2id$v=19$m=65536,t=3,p=4$svTr0wptoFUtsi5uOwrF4g$VWqZTW7UjsJnb7I9MfTCoBvKPN7Mqs/dmzw8BJW/fEA", name: "john doe", archive: false });
-          newCollection.insert({ id: "06b16695-7828-4046-9762-b7e7e241f305", username: "normal user", password: "$argon2id$v=19$m=65536,t=3,p=4$8fhrNV56s2Rc75S6tFxYLw$VCGAHT9RecGxMpWtzJYcEkjd7BxX7TUI7P0bs+HVMLo", name: "jon doe", archive: false });
+          newCollection.insert({ id: "99ae8e89-a04b-48fa-a3b0-e38013b167d1", username: "admin", password: "$argon2id$v=19$m=65536,t=3,p=4$svTr0wptoFUtsi5uOwrF4g$VWqZTW7UjsJnb7I9MfTCoBvKPN7Mqs/dmzw8BJW/fEA", name: "john doe", role: "5d456477-4414-4ef3-9f39-e7c429030c95", archive: false });
+          newCollection.insert({ id: "06b16695-7828-4046-9762-b7e7e241f305", username: "normal user", password: "$argon2id$v=19$m=65536,t=3,p=4$8fhrNV56s2Rc75S6tFxYLw$VCGAHT9RecGxMpWtzJYcEkjd7BxX7TUI7P0bs+HVMLo", name: "jon doe", role: "388838ae-9b81-43d9-8cae-81638960c811", archive: false });
+        } else if (collection === COLLECTION_NAME.ROLE) {
+          const newCollection = db.addCollection(collection);
+          newCollection.insert({ id: "5d456477-4414-4ef3-9f39-e7c429030c95", name: "Admin", archive: false });
+          newCollection.insert({ id: "388838ae-9b81-43d9-8cae-81638960c811", name: "User", archive: false });
         } else {
           db.addCollection(collection);
         }

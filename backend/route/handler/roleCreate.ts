@@ -21,7 +21,7 @@ export const handleRoleCreate = async (log: Logger, db: DB, req: ReqRoleCreate):
 
   if (existingRole && existingRole.length > 0) {
     log.info("[role][create] Existing role found", { name });
-    throw new AlreadyExistError();
+    throw new AlreadyExistError(name);
   }
   
   log.info("[role][create] Registering new role", { name });
