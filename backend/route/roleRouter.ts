@@ -19,7 +19,6 @@ roleRouter.use(async (ctx, next) => {
   await next();
 });
 
-
 roleRouter.post<ServerState, ServerContext, ReqUserCreate>('/', async (ctx, next) => {
   const res = await handleRoleCreate(ctx.log, ctx.db, ctx.body);
   ctx.body = res.body;

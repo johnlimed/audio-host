@@ -1,5 +1,6 @@
 import { Logger } from "winston";
 import loki, { LokiFsAdapter } from "lokijs";
+import { EnumRole } from "../../type/EnumRole";
 
 export enum COLLECTION_NAME {
   USER = "users",
@@ -40,8 +41,8 @@ export const initDB = (log: Logger): DB => {
           newCollection.insert({ id: "06b16695-7828-4046-9762-b7e7e241f305", username: "normal user", password: "$argon2id$v=19$m=65536,t=3,p=4$8fhrNV56s2Rc75S6tFxYLw$VCGAHT9RecGxMpWtzJYcEkjd7BxX7TUI7P0bs+HVMLo", name: "jon doe", roleId: "388838ae-9b81-43d9-8cae-81638960c811", archive: false });
         } else if (collection === COLLECTION_NAME.ROLE) {
           const newCollection = db.addCollection(collection);
-          newCollection.insert({ id: "5d456477-4414-4ef3-9f39-e7c429030c95", name: "Admin", archive: false });
-          newCollection.insert({ id: "388838ae-9b81-43d9-8cae-81638960c811", name: "User", archive: false });
+          newCollection.insert({ id: "5d456477-4414-4ef3-9f39-e7c429030c95", name: EnumRole.ADMIN, archive: false });
+          newCollection.insert({ id: "388838ae-9b81-43d9-8cae-81638960c811", name: EnumRole.USER, archive: false });
         } else {
           db.addCollection(collection);
         }

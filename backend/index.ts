@@ -12,6 +12,9 @@ import { shutdown } from "./middleware/shutdown";
 import router from "./route/router"; 
 import { ServerState } from "./type/ServerState";
 import { ServerContext } from "./type/ServerContext";
+import { getAdminRole } from "./route/useCase/getAdminRole";
+import { getUserRole } from "./route/useCase/getUserRole";
+import { roleMiddleware } from "./middleware/roleMiddleware";
 
 const startServer = () => {
   const app = new Koa();
@@ -20,9 +23,13 @@ const startServer = () => {
   const db = initDB(logger);
   const server = http.createServer(app.callback());
   
+  const adminRole = getAdminRole(db);
+  const userRole = getUserRole(db);
+  
   app.use(loggerMiddleware(logger));
   app.use(errorMiddleware);
   app.use(dbMiddleware(db));
+  app.use(roleMiddleware(adminRole.id, userRole.id));
   app.use(shutdown(logger, db, server));
 
   app.use(bodyParser());
