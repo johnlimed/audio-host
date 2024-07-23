@@ -6,6 +6,7 @@ export const getMockJWT = () => {
   verifySpy.mockReturnValue({
     username: "username",
     id: "id",
+    roleId: "roleId"
   });
   signSpy.mockReturnValue("token");
   return {

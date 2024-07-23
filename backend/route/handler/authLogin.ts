@@ -39,7 +39,7 @@ export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, authst
    * If jwt token is not provided 
    */
   await verifyPassword(log, user[0].password, password, username);
-  const token = signJWT({ username, id: user[0].id });
+  const token = signJWT({ username, id: user[0].id, roleId: user[0].roleId });
 
   return {
     body: { jwt: token },

@@ -35,7 +35,7 @@ export const handleUserCreate = async (log: Logger, db: DB, req: ReqUserCreate):
   if (admin) role = getAdminRole(db);
   else role = getUserRole(db);
   
-  db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name, role: role.id, archive: false });
+  db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name, roleId: role.id, archive: false });
   
   return {
     body: "successfully registered user.",
