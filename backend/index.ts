@@ -20,16 +20,19 @@ const startServer = () => {
   const app = new Koa();
   const port = 3000;
   const logger = Log();
-  const db = initDB(logger);
+  const db = initDB(logger, () => {
+    const adminRole = getAdminRole(db);
+    const userRole = getUserRole(db);
+    
+    app.use(roleMiddleware(adminRole.id, userRole.id));
+    app.use(router.routes());
+    app.use(router.allowedMethods());
+  });
   const server = http.createServer(app.callback());
-  
-  const adminRole = getAdminRole(db);
-  const userRole = getUserRole(db);
   
   app.use(loggerMiddleware(logger));
   app.use(errorMiddleware);
   app.use(dbMiddleware(db));
-  app.use(roleMiddleware(adminRole.id, userRole.id));
   app.use(shutdown(logger, db, server));
 
   app.use(bodyParser());
@@ -38,8 +41,6 @@ const startServer = () => {
     await next();
   });
   
-  app.use(router.routes());
-  app.use(router.allowedMethods());
   
   server.listen(port, () => {
     logger.info(`🚀 Server is running on port http://localhost:${port}/`);

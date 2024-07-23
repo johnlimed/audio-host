@@ -8,10 +8,18 @@ import { InputError } from "../../error/InputError";
 
 import { COLLECTION_NAME, DB } from "../../lib/database";
 
-export const handleRoleUpdate = (log: Logger, db: DB, id: string, body: ReqRoleUpdate): ResHandler<IRole> => {
+export const handleRoleUpdate = (log: Logger, db: DB, id: string, body: ReqRoleUpdate, adminRoleId: string, userRoleId: string): ResHandler<IRole> => {
   if (!id) throw new InputError("Id is malformed, cannot find role to update");
   if (Object.keys(body).length === 0) throw new InputError("Nothing to update check input");
-  
+
+  if (id === adminRoleId || id === userRoleId) {
+    throw new InputError("Protected role");
+  }
+
+  const { level } = body;
+
+  if (level === 0 || level === 10) throw new InputError("Role cannot take level 0 or 10");
+
   const update = body;
   
   log.info(`[role][update] Updating role: ${id}`, update);

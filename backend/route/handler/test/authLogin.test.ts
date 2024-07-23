@@ -65,15 +65,20 @@ describe("Given handleUserLogin is called", () => {
     beforeAll(async () => {
       mockDB.get.mockClear();
       mockDB.get.mockReturnValueOnce([{ username: "hello", password: "pass" }]);
+      mockDB.get.mockReturnValueOnce([{ name: "user", level: 10 }]);
+      mockJWT.signJWT.mockClear();
       mockPassword.verifyPassword.mockClear();
       mockPassword.verifyPassword.mockResolvedValueOnce();
       result = await wrapper({});
     });
     it("Then calls db.get", () => {
-      expect(mockDB.get).toHaveBeenCalledTimes(1);
+      expect(mockDB.get).toHaveBeenCalledTimes(2);
     });
     it("Then calls verifyPassword", () => {
       expect(mockPassword.verifyPassword).toHaveBeenCalledTimes(1);
+    });
+    it("Then calls signJWT", () => {
+      expect(mockJWT.signJWT).toHaveBeenCalledTimes(1);
     });
     it("Then returns jwt token", () => {
       expect(result).toStrictEqual({ body: { jwt: "token" }});

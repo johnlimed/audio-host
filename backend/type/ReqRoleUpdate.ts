@@ -1,3 +1,4 @@
 export interface ReqRoleUpdate {
-  name: string
+  name?: string;
+  level?: number;
 }

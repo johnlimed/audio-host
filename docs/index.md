@@ -38,6 +38,8 @@ Standard koa bodyparser middleware, enabling parsing of json body object.
 Checks for session via jwtMiddleware  
 Store username and id of user in token  
 
+### roleMiddleware  
+Roles are retrieved on startup and stored in ctx.state. Role middleware attaches it per request.  
 
 
 ## Errors

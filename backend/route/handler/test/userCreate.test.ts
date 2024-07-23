@@ -8,11 +8,13 @@ import { mockDB } from "../../../lib/database/mock";
 import { getMockPassword } from "../../../lib/password/mock";
 
 import * as uuid from "../../useCase/generateUUID";
+import * as userRole from "../../useCase/getUserRole";
 
 const wrapper = (req: any) => handleUserCreate(Log(), mockDB, req);
 
 const mockPassword = getMockPassword();
 const uuidSpy = jest.spyOn(uuid, "generateUUID");
+const userRoleSpy = jest.spyOn(userRole, "getUserRole");
 
 describe("Given userCreate is called", () => {
   describe("When with no username", () => {
@@ -46,6 +48,8 @@ describe("Given userCreate is called", () => {
       mockPassword.hashPassword.mockResolvedValueOnce("hash");
       uuidSpy.mockClear();
       uuidSpy.mockReturnValueOnce("uuid");
+      userRoleSpy.mockClear();
+      userRoleSpy.mockReturnValue({ id: "id", name: "user", level: 10, archive: false });
       mockDB.insert.mockClear();
       res = await wrapper({ username: "username", password: "password", name: "name" });
     });
@@ -57,6 +61,9 @@ describe("Given userCreate is called", () => {
     });
     it("Then calls generateUUID", () => {
       expect(uuidSpy).toHaveBeenCalledTimes(1);
+    });
+    it("Then calls getUserRole", () => {
+      expect(userRoleSpy).toHaveBeenCalledTimes(1);
     });
     it("Then calls db.insert", () => {
       expect(mockDB.insert).toHaveBeenCalledTimes(1);

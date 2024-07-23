@@ -11,6 +11,7 @@ import { COLLECTION_NAME } from "../lib/database";
 
 import { handleRoleCreate } from "./handler/roleCreate";
 import { handleRoleUpdate } from "./handler/roleUpdate";
+import { InputError } from "../error/InputError";
 
 const roleRouter = new Router();
 
@@ -39,13 +40,18 @@ roleRouter.get<ServerState, ServerContext>('/:id', async (ctx, next) => {
 });
 
 roleRouter.patch<ServerState, ServerContext, ReqRoleUpdate>('/:id', async (ctx, next) => {
-  const res = handleRoleUpdate(ctx.log, ctx.db, ctx.params.id, ctx.body);
+  const { id } = ctx.params;
+  const res = handleRoleUpdate(ctx.log, ctx.db, id, ctx.body, ctx.state.role.Admin, ctx.state.role.User);
   ctx.body = res.body;
   await next();
 });
 
 roleRouter.delete<ServerState, ServerContext>('/:id', async (ctx, next) => {
-  const res = ctx.db.delete(COLLECTION_NAME.ROLE, ctx.params.id);
+  const { id } = ctx.params;
+  if (id === ctx.state.role.Admin || id === ctx.state.role.User) {
+    throw new InputError("Protected role");
+  }
+  const res = ctx.db.delete(COLLECTION_NAME.ROLE, id);
   ctx.body = res;
   await next();
 });
