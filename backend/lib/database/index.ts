@@ -32,7 +32,7 @@ export const initDB = (log: Logger): DB => {
       if (values === null) {
         if (collection === COLLECTION_NAME.USER) {
           const newCollection = db.addCollection(collection);
-          newCollection.insert({ username: "admin", password: "$argon2id$v=19$m=65536,t=3,p=4$svTr0wptoFUtsi5uOwrF4g$VWqZTW7UjsJnb7I9MfTCoBvKPN7Mqs/dmzw8BJW/fEA", id: "99ae8e89-a04b-48fa-a3b0-e38013b167d1" });
+          newCollection.insert({ username: "admin", password: "$argon2id$v=19$m=65536,t=3,p=4$svTr0wptoFUtsi5uOwrF4g$VWqZTW7UjsJnb7I9MfTCoBvKPN7Mqs/dmzw8BJW/fEA", id: "99ae8e89-a04b-48fa-a3b0-e38013b167d1", name: "john doe" });
         } else {
           db.addCollection(collection);
         }

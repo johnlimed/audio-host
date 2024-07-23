@@ -11,6 +11,7 @@ import { shutdown } from "./middleware/shutdown";
 
 import router from "./route/router"; 
 import authRouter from "./route/authRouter";
+import userRouter from "./route/userRouter";
 import { ServerState } from "./type/ServerState";
 import { ServerContext } from "./type/ServerContext";
 
@@ -33,6 +34,7 @@ const startServer = () => {
   });
   
   router.use("/auth", authRouter.routes(), authRouter.allowedMethods());
+  router.use("/user", userRouter.routes(), userRouter.allowedMethods());
   app.use(router.routes());
   app.use(router.allowedMethods());
   

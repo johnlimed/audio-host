@@ -9,19 +9,19 @@ import { ResHandler } from "../../type/ResHandler";
 import { ReqRegister } from "../../type/ReqRegister";
 
 export const handleUserCreate = async (log: Logger, db: DB, req: ReqRegister): Promise<ResHandler> => {
-  const { username, password } = req;
+  const { username, password, name } = req;
 
   const existingUser = db.get<IUser>(COLLECTION_NAME.USER, { username });
 
   if (existingUser && existingUser.length > 0) {
-    log.info("[user][create] Existing user found", { username, password });
+    log.info("[user][create] Existing user found", { username, password, name });
     throw new UserExistError();
   }
   
-  log.info("[user][create] Registering new user", { username, password });
+  log.info("[user][create] Registering new user", { username, password, name });
   const hashedPassword = await argon2.hash(password);
   const id = generateUUID();
-  db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword });
+  db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name });
   
   return {
     body: "successfully registered user.",

@@ -8,6 +8,12 @@ Endpoints > Handler > Use cases
 Key points: design of server employs SOLID principles.  
 Quite a fair bit of abstraction of libraries and dependencies so that we can mock them in our test cases.  
 
+Given the timeline of the project, it is quite tight to implement the best practices. Strategy is to implement critical best practices and then compromise on those that may push the project timeline too long.  
+
+Develop in a way that is extendable to allow room to switch out to best practices down the line.  
+
+One example of compromise is implementing JWT, but using a secret phrase instead of certificates.   
+
 ## Middlewares
 ### loggerMiddleware
 stores winston logger in context (ctx.log)
@@ -75,17 +81,17 @@ Example request
   password: string;
 }
 
-Errors
-[Authentication error](#AuthenticationError)
-[Authentication expired error](#AuthenticationExpiredError)
-[Authentication malformed error](#AuthenticationMalformError)
-[Authentication method error](#AuthenticationMethodError)
-
 Response
 {
   jwt: string;
 }
 ```
+#### Errors
+[Authentication error](#AuthenticationError)  
+[Authentication expired error](#AuthenticationExpiredError)  
+[Authentication malformed error](#AuthenticationMalformError)  
+[Authentication method error](#AuthenticationMethodError)  
+
 ### /auth/logout
 ```javascript
 Example request
@@ -105,9 +111,8 @@ Example request
   password: string;
 }
 
-Errors
-[User Exist](#UserExistError)
-
 Response
 "successfully registered user."
 ```
+#### Errors
+[User Exist](#UserExistError)

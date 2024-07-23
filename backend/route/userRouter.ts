@@ -14,7 +14,7 @@ userRouter.use(async (ctx, next) => {
 });
 
 
-userRouter.post<ServerState, ServerContext, ReqRegister>('/create', async (ctx, next) => {
+userRouter.post<ServerState, ServerContext, ReqRegister>('/', async (ctx, next) => {
   const res = await handleUserCreate(ctx.log, ctx.db, ctx.body);
   ctx.body = res.body;
   ctx.status = res.status;
@@ -22,10 +22,18 @@ userRouter.post<ServerState, ServerContext, ReqRegister>('/create', async (ctx, 
   await next();
 });
 
-userRouter.put('/update', async (ctx, next) => {
+interface ReqUserUpdate {
+  id: string;
+
+}
+userRouter.patch<ServerState, ServerContext, ReqUserUpdate>('/:id', async (ctx, next) => {
+  ctx.body = "sucess";
   await next();
 });
 
-userRouter.delete('/', async (ctx, next) => {
+userRouter.delete<ServerState, ServerContext>('/:id', async (ctx, next) => {
+  ctx.body = "sucess";
   await next();
 });
+
+export default userRouter;
