@@ -2,7 +2,7 @@ import { COLLECTION_NAME, DB } from "../lib/database";
 import { EnumRole } from "../type/EnumRole";
 import { IRole } from "../type/IRole";
 
-export const roleMiddleware = (db: DB) => {
+export const roleMiddleware = (db: DB, adminId: string, userId: string) => {
   const roles = db.get<IRole>(COLLECTION_NAME.ROLE, {});
 
   let adminRoleId: string;
@@ -20,6 +20,8 @@ export const roleMiddleware = (db: DB) => {
       role: roleMap,
       adminRoleId,
       userRoleId,
+      adminId,
+      userId,
     }
     await next();
   }

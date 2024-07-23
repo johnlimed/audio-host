@@ -4,8 +4,10 @@ import { IRole } from "./IRole"
 export interface ServerState {
   role: {
     [name: string]: IRole
-  },
-  userRoleId: string,
-  adminRolesId: string,
-  jwt?: IJWTPayload,
+  };
+  userRoleId: string;
+  adminRolesId: string;
+  userId: string;
+  adminId: string;
+  jwt?: IJWTPayload;
 }

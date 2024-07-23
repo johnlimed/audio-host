@@ -6,7 +6,8 @@ export const mkdirIfNotExist = async (log: Logger, filepath: string) => {
     if (err.message.indexOf("no such file or directory") > -1) {
       log.warn(err);
       await fsPromises.mkdir(filepath);
+    } else {
+      log.error(err);
     }
-    log.error(err);
   });
 }

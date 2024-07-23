@@ -17,7 +17,7 @@ import { ReqUserCreate } from "../type/ReqUserCreate";
 import { mkdirIfNotExist } from "../useCase/mkdirIfNotExist";
 import { EnumPath } from "../type/EnumPath";
 
-export const handleUserCreate = async (log: Logger, db: DB, req: ReqUserCreate): Promise<ResHandler<string>> => {
+export const handleUserCreate = async (log: Logger, db: DB, req: ReqUserCreate): Promise<ResHandler<IUser>> => {
   const { username, password, name, admin } = req;
 
   if (!username || !password || !name) throw new InputError("One of the input is missing. Check input.");
@@ -37,12 +37,15 @@ export const handleUserCreate = async (log: Logger, db: DB, req: ReqUserCreate):
   if (admin) role = getAdminRole(db);
   else role = getUserRole(db);
   
-  db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name, roleId: role.id, archive: false });
+  const newUser = db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name, roleId: role.id, archive: false });
 
   await mkdirIfNotExist(log, EnumPath.STORE + `/${id}`);
   
+  const res = Object.assign({}, newUser);
+  delete res.password;
+
   return {
-    body: "successfully registered user.",
+    body: res,
     status: 200,
   }
 }

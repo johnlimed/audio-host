@@ -27,7 +27,7 @@ const startServer = () => {
     await mkdirIfNotExist(logger, EnumPath.STORE);
     await mkdirIfNotExist(logger, EnumPath.STORE + `/${adminId}`);
     await mkdirIfNotExist(logger, EnumPath.STORE + `/${userId}`);
-    app.use(roleMiddleware(db));
+    app.use(roleMiddleware(db, adminId, userId));
     app.use(router.routes());
     app.use(router.allowedMethods());
   });

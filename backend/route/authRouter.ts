@@ -17,18 +17,16 @@ authRouter.use(async (ctx, next) => {
   await next();
 });
 
-authRouter.post<ServerState, ServerContext, ReqLogin>('/login', async (ctx, next) => {
+authRouter.post<ServerState, ServerContext, ReqLogin>('/login', async (ctx) => {
   const res = await handleUserLogin(ctx.log, ctx.db, ctx.body, ctx.request.header.authorization);
-  ctx.body = res.body;
-
-  await next();
+  ctx.state.jwt = res.body.payload;
+  ctx.body = { jwt: res.body.jwt };
 });
 
 authRouter.use(jwtMiddleware());
 
-authRouter.post('/logout', async (ctx, next) => {
+authRouter.post('/logout', (ctx) => {
   ctx.body = "logout success";
-  await next();
 });
 
 export default authRouter;

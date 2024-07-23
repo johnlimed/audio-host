@@ -11,8 +11,9 @@ import { ResHandler } from "../type/ResHandler";
 
 import { AuthenticationError } from "../error/AuthenticationError";
 import { UnexpectedServerError } from "../error/UnexpectedServerError";
+import { IJWTPayload } from "../type/IJWTPayload";
 
-export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, authstring?: string): Promise<ResHandler<{ jwt: string}>> => {
+export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, authstring?: string): Promise<ResHandler<{ jwt: string, payload: IJWTPayload }>> => {
   const { username, password } = req; 
   
   const user = db.get<IUser>(COLLECTION_NAME.USER, { username });
@@ -32,7 +33,7 @@ export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, authst
     if (payload && Object.keys(payload).length > 0) {
       log.info(`[auth][login] JWT verified, bypassing check for ${payload.username}`);
       return {
-        body: { jwt: authstring.split(" ")[1] }
+        body: { jwt: authstring.split(" ")[1], payload }
       }
     }
   }
@@ -45,9 +46,10 @@ export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, authst
   const roles = db.get<IRole>(COLLECTION_NAME.ROLE, { id: user[0].roleId });
   if (!roles || roles.length === 0) throw new UnexpectedServerError("User without role");
   
-  const token = signJWT({ username, id: user[0].id, roleId: user[0].roleId, roleLevel: roles[0].level });
+  const payload: IJWTPayload = { username, id: user[0].id, roleId: user[0].roleId, roleLevel: roles[0].level };
+  const token = signJWT(payload);
 
   return {
-    body: { jwt: token },
+    body: { jwt: token, payload },
   }
 }

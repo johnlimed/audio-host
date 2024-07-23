@@ -27,40 +27,35 @@ roleRouter.use(async (ctx, next) => {
  */
 roleRouter.use(jwtMiddleware(EnumRole.ADMIN));
 
-roleRouter.post<ServerState, ServerContext, ReqUserCreate>('/', async (ctx, next) => {
+roleRouter.post<ServerState, ServerContext, ReqUserCreate>('/', async (ctx) => {
   const res = await handleRoleCreate(ctx.log, ctx.db, ctx.body);
   ctx.body = res.body;
   ctx.status = res.status;
-  await next();
 });
 
-roleRouter.get<ServerState, ServerContext>('/', async (ctx, next) => {
+roleRouter.get<ServerState, ServerContext>('/', (ctx) => {
   const res = ctx.db.get<IRole>(COLLECTION_NAME.ROLE, {});
   ctx.body = res;
-  await next();
 });
 
-roleRouter.get<ServerState, ServerContext>('/:id', async (ctx, next) => {
+roleRouter.get<ServerState, ServerContext>('/:id', (ctx) => {
   const res = ctx.db.get<IRole>(COLLECTION_NAME.ROLE, { id: ctx.params.id });
   ctx.body = res[0];
-  await next();
 });
 
-roleRouter.patch<ServerState, ServerContext, ReqRoleUpdate>('/:id', async (ctx, next) => {
+roleRouter.patch<ServerState, ServerContext, ReqRoleUpdate>('/:id', (ctx) => {
   const { id } = ctx.params;
   const res = handleRoleUpdate(ctx.log, ctx.db, id, ctx.body, ctx.state.adminRoleId, ctx.state.userRoleId);
   ctx.body = res.body;
-  await next();
 });
 
-roleRouter.delete<ServerState, ServerContext>('/:id', async (ctx, next) => {
+roleRouter.delete<ServerState, ServerContext>('/:id', (ctx) => {
   const { id } = ctx.params;
   if (id === ctx.state.userRoleId || id === ctx.state.adminRoleId) {
     throw new InputError("Protected role");
   }
   const res = ctx.db.delete(COLLECTION_NAME.ROLE, id);
   ctx.body = res;
-  await next();
 });
 
 export default roleRouter;

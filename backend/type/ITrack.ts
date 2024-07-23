@@ -1,7 +1,7 @@
 export interface ITrack {
   id: string;
-  name: string;
   filepath: string;
+  filename: string;
   ownerId: string;
   archive: boolean;
 }

@@ -28,7 +28,6 @@ export const jwtMiddleware = (roleRestriction?: EnumRole) => {
     }
 
     ctx.state.jwt = payload;
-
     // If role restriction is required, check for role.
     if (roleRestriction) {
       const restrictedFor: IRole = ctx.state.role[roleRestriction];
