@@ -1,3 +1,4 @@
+import { IJWTPayload } from "./IJWTPayload"
 import { IRole } from "./IRole"
 
 export interface ServerState {
@@ -6,4 +7,5 @@ export interface ServerState {
   },
   userRoleId: string,
   adminRolesId: string,
+  jwt?: IJWTPayload,
 }

@@ -15,7 +15,7 @@ import { IRole } from "../type/IRole";
 export const jwtMiddleware = (roleRestriction?: EnumRole) => {
   return async (ctx, next) => {
     const { authorization } = ctx.request.header;
-    
+
     // Check for jwt first
     let payload: IJWTPayload;
     if (authorization) {
@@ -27,9 +27,11 @@ export const jwtMiddleware = (roleRestriction?: EnumRole) => {
       throw new AuthenticationError();
     }
 
+    ctx.state.jwt = payload;
+
     // If role restriction is required, check for role.
     if (roleRestriction) {
-      const restrictedFor: IRole = ctx.state.roles[roleRestriction];
+      const restrictedFor: IRole = ctx.state.role[roleRestriction];
       if (!restrictedFor) throw new UnexpectedServerError(`Unknown security clearance for role: ${roleRestriction}`);
 
       if (payload.roleLevel > restrictedFor.level) {
