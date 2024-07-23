@@ -1,8 +1,10 @@
 import { AuthenticationError } from "../error/AuthenticationError";
 import { AuthorizationError } from "../error/AuthorizationError";
+import { UnexpectedServerError } from "../error/UnexpectedServerError";
 import { verifyJWT } from "../lib/jwt";
 import { EnumRole } from "../type/EnumRole";
 import { IJWTPayload } from "../type/IJWTPayload";
+import { IRole } from "../type/IRole";
 
 /**
  * Attach middleware if authorization is required.
@@ -27,11 +29,11 @@ export const jwtMiddleware = (roleRestriction?: EnumRole) => {
 
     // If role restriction is required, check for role.
     if (roleRestriction) {
-      if (roleRestriction === EnumRole.ADMIN) {
-        const requiredRoleId = ctx.state.role[roleRestriction];
-        if (payload.roleId !== requiredRoleId) {
-          throw new AuthorizationError();
-        }
+      const restrictedFor: IRole = ctx.state.roles[roleRestriction];
+      if (!restrictedFor) throw new UnexpectedServerError(`Unknown security clearance for role: ${roleRestriction}`);
+
+      if (payload.roleLevel > restrictedFor.level) {
+        throw new AuthorizationError();
       }
     }
 

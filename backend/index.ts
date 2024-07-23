@@ -2,29 +2,26 @@ import Koa from "koa";
 import http from 'http';
 import bodyParser from "koa-bodyparser";
 
-import { initDB } from "./lib/database";
 import { Log } from "./lib/logger";
+import { initDB } from "./lib/database";
+
 import { loggerMiddleware } from "./middleware/loggerMiddleware";
 import { errorMiddleware } from "./middleware/errorMiddleware";
+import { roleMiddleware } from "./middleware/roleMiddleware";
 import { dbMiddleware } from "./middleware/dbMiddleware";
 import { shutdown } from "./middleware/shutdown";
 
 import router from "./route/router"; 
+
 import { ServerState } from "./type/ServerState";
 import { ServerContext } from "./type/ServerContext";
-import { getAdminRole } from "./route/useCase/getAdminRole";
-import { getUserRole } from "./route/useCase/getUserRole";
-import { roleMiddleware } from "./middleware/roleMiddleware";
 
 const startServer = () => {
   const app = new Koa();
   const port = 3000;
   const logger = Log();
   const db = initDB(logger, () => {
-    const adminRole = getAdminRole(db);
-    const userRole = getUserRole(db);
-    
-    app.use(roleMiddleware(adminRole.id, userRole.id));
+    app.use(roleMiddleware(db));
     app.use(router.routes());
     app.use(router.allowedMethods());
   });

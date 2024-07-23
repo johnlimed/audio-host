@@ -1,6 +1,9 @@
+import { IRole } from "./IRole"
+
 export interface ServerState {
   role: {
-    Admin: string;
-    User: string;
-  }
+    [name: string]: IRole
+  },
+  userRoleId: string,
+  adminRolesId: string,
 }

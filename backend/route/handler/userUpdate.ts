@@ -12,9 +12,11 @@ export const handleUserUpdate = async (log: Logger, db: DB, id: string, body: Re
   
   const update = body;
   const { password } = body;
+  
   if (password) {
     update.password = await hashPassword(password);
   }
+  
   log.info(`[user][update] Updating user: ${id}`, update);
   const updated = await db.update<ReqUserUpdate, IUser>(COLLECTION_NAME.USER, id, update);
 

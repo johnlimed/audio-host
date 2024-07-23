@@ -41,14 +41,14 @@ roleRouter.get<ServerState, ServerContext>('/:id', async (ctx, next) => {
 
 roleRouter.patch<ServerState, ServerContext, ReqRoleUpdate>('/:id', async (ctx, next) => {
   const { id } = ctx.params;
-  const res = handleRoleUpdate(ctx.log, ctx.db, id, ctx.body, ctx.state.role.Admin, ctx.state.role.User);
+  const res = handleRoleUpdate(ctx.log, ctx.db, id, ctx.body, ctx.state.adminRoleId, ctx.state.userRoleId);
   ctx.body = res.body;
   await next();
 });
 
 roleRouter.delete<ServerState, ServerContext>('/:id', async (ctx, next) => {
   const { id } = ctx.params;
-  if (id === ctx.state.role.Admin || id === ctx.state.role.User) {
+  if (id === ctx.state.userRoleId || id === ctx.state.adminRoleId) {
     throw new InputError("Protected role");
   }
   const res = ctx.db.delete(COLLECTION_NAME.ROLE, id);
