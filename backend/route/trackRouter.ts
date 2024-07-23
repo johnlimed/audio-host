@@ -1,6 +1,6 @@
 import Router from "@koa/router";
 import multer from '@koa/multer';
-import { promises as fsPromises } from "fs";
+import fs, { promises as fsPromises } from "fs";
 
 import { Log } from "../lib/logger";
 import { COLLECTION_NAME } from "../lib/database";
@@ -42,6 +42,18 @@ userRouter.post<ServerState, ServerContext>("/", upload.single("file"), async (c
   ctx.body = track;
 });
 
+userRouter.get<ServerState, ServerContext>("/:id", (ctx) => {
+  const { id } = ctx.params;
+  if (!id) throw new InputError("Id not provided");
+  const tracks = ctx.db.get<ITrack>(COLLECTION_NAME.TRACK, { id });
+
+  if (!tracks || tracks.length === 0) throw new InputError("Track not found");
+  if (tracks[0].ownerId !== ctx.state.jwt.id) throw new AuthorizationError();
+
+  ctx.response.set('content-type', 'application/json');
+  ctx.body = fs.createReadStream(tracks[0].filepath);
+});
+
 userRouter.delete<ServerState, ServerContext>("/:id", async (ctx) => {
   const { id } = ctx.params;
   if (!id) throw new InputError("Id not provided");
@@ -68,7 +80,7 @@ trackRouter.use(async (ctx, next) => {
   await next();
 });
 
-trackRouter.use(userRouter.routes());
 trackRouter.use("/admin", adminRouter.routes());
+trackRouter.use(userRouter.routes());
 
 export default trackRouter;
