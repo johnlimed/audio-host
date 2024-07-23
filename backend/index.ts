@@ -23,10 +23,10 @@ const startServer = () => {
   const app = new Koa();
   const port = 3000;
   const logger = Log();
-  const db = initDB(logger, (adminId: string, userId: string) => {
-    mkdirIfNotExist(logger, EnumPath.STORE);
-    mkdirIfNotExist(logger, EnumPath.STORE + `/${adminId}`);
-    mkdirIfNotExist(logger, EnumPath.STORE + `/${userId}`);
+  const db = initDB(logger, async (adminId: string, userId: string) => {
+    await mkdirIfNotExist(logger, EnumPath.STORE);
+    await mkdirIfNotExist(logger, EnumPath.STORE + `/${adminId}`);
+    await mkdirIfNotExist(logger, EnumPath.STORE + `/${userId}`);
     app.use(roleMiddleware(db));
     app.use(router.routes());
     app.use(router.allowedMethods());
@@ -43,7 +43,6 @@ const startServer = () => {
     ctx.body = ctx.request.body;
     await next();
   });
-  
   
   server.listen(port, () => {
     logger.info(`🚀 Server is running on port http://localhost:${port}/`);

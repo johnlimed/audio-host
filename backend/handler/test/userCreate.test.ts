@@ -9,12 +9,15 @@ import { getMockPassword } from "../../lib/password/mock";
 
 import * as uuid from "../../useCase/generateUUID";
 import * as userRole from "../../useCase/getUserRole";
+import * as mkdir from "../../useCase/mkdirIfNotExist";
 
 const wrapper = (req: any) => handleUserCreate(Log(), mockDB, req);
 
 const mockPassword = getMockPassword();
 const uuidSpy = jest.spyOn(uuid, "generateUUID");
 const userRoleSpy = jest.spyOn(userRole, "getUserRole");
+const mkdirSpy = jest.spyOn(mkdir, "mkdirIfNotExist");
+mkdirSpy.mockResolvedValue();
 
 describe("Given userCreate is called", () => {
   describe("When with no username", () => {
@@ -51,6 +54,7 @@ describe("Given userCreate is called", () => {
       userRoleSpy.mockClear();
       userRoleSpy.mockReturnValue({ id: "id", name: "user", level: 10, archive: false });
       mockDB.insert.mockClear();
+      mkdirSpy.mockClear();
       res = await wrapper({ username: "username", password: "password", name: "name" });
     });
     it("Then calls getDb", () => {
@@ -67,6 +71,9 @@ describe("Given userCreate is called", () => {
     });
     it("Then calls db.insert", () => {
       expect(mockDB.insert).toHaveBeenCalledTimes(1);
+    });
+    it("Then calls mkdirIfNotExist", () => {
+      expect(mkdirSpy).toHaveBeenCalledTimes(1);
     });
     it("Then returns body", () => {
       expect(res).toStrictEqual({

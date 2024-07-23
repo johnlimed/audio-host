@@ -39,8 +39,7 @@ export const handleUserCreate = async (log: Logger, db: DB, req: ReqUserCreate):
   
   db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name, roleId: role.id, archive: false });
 
-  // create dir
-  mkdirIfNotExist(log, EnumPath.STORE + `/${id}`);
+  await mkdirIfNotExist(log, EnumPath.STORE + `/${id}`);
   
   return {
     body: "successfully registered user.",
