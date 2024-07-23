@@ -1,16 +1,16 @@
 import { Logger } from "winston";
 
-import { signJWT, verifyJWT } from "../../lib/jwt";
-import { verifyPassword } from "../../lib/password";
-import { COLLECTION_NAME, DB } from "../../lib/database";
+import { signJWT, verifyJWT } from "../lib/jwt";
+import { verifyPassword } from "../lib/password";
+import { COLLECTION_NAME, DB } from "../lib/database";
 
-import { IRole } from "../../type/IRole";
-import { IUser } from "../../type/IUser";
-import { ReqLogin } from "../../type/ReqLogin";
-import { ResHandler } from "../../type/ResHandler";
+import { IRole } from "../type/IRole";
+import { IUser } from "../type/IUser";
+import { ReqLogin } from "../type/ReqLogin";
+import { ResHandler } from "../type/ResHandler";
 
-import { AuthenticationError } from "../../error/AuthenticationError";
-import { UnexpectedServerError } from "../../error/UnexpectedServerError";
+import { AuthenticationError } from "../error/AuthenticationError";
+import { UnexpectedServerError } from "../error/UnexpectedServerError";
 
 export const handleUserLogin = async (log: Logger, db: DB, req: ReqLogin, authstring?: string): Promise<ResHandler<{ jwt: string}>> => {
   const { username, password } = req; 

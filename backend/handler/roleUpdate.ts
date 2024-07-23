@@ -1,12 +1,12 @@
 import { Logger } from "winston";
 
-import { IRole } from "../../type/IRole";
-import { ResHandler } from "../../type/ResHandler";
-import { ReqRoleUpdate } from "../../type/ReqRoleUpdate";
+import { IRole } from "../type/IRole";
+import { ResHandler } from "../type/ResHandler";
+import { ReqRoleUpdate } from "../type/ReqRoleUpdate";
 
-import { InputError } from "../../error/InputError";
+import { InputError } from "../error/InputError";
 
-import { COLLECTION_NAME, DB } from "../../lib/database";
+import { COLLECTION_NAME, DB } from "../lib/database";
 
 export const handleRoleUpdate = (log: Logger, db: DB, id: string, body: ReqRoleUpdate, adminRoleId: string, userRoleId: string): ResHandler<IRole> => {
   if (!id) throw new InputError("Id is malformed, cannot find role to update");

@@ -5,6 +5,7 @@ import { EnumRole } from "../../type/EnumRole";
 export enum COLLECTION_NAME {
   USER = "users",
   ROLE = "roles",
+  TRACK = "tracks",
 }
 
 export const COLLECTIONS = Object.values(COLLECTION_NAME);

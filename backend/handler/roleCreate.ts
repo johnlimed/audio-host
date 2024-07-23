@@ -1,15 +1,15 @@
 import { Logger } from "winston";
 
-import { generateUUID } from "../useCase/generateUUID";
+import { generateUUID } from "../route/useCase/generateUUID";
 
-import { COLLECTION_NAME, DB } from "../../lib/database";
+import { COLLECTION_NAME, DB } from "../lib/database";
 
-import { InputError } from "../../error/InputError";
-import { AlreadyExistError } from "../../error/AlreadyExistError";
+import { InputError } from "../error/InputError";
+import { AlreadyExistError } from "../error/AlreadyExistError";
 
-import { IRole } from "../../type/IRole";
-import { ResHandler } from "../../type/ResHandler";
-import { ReqRoleCreate } from "../../type/ReqRoleCreate";
+import { IRole } from "../type/IRole";
+import { ResHandler } from "../type/ResHandler";
+import { ReqRoleCreate } from "../type/ReqRoleCreate";
 
 
 export const handleRoleCreate = async (log: Logger, db: DB, req: ReqRoleCreate): Promise<ResHandler<IRole>> => {

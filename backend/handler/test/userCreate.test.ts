@@ -1,14 +1,14 @@
 import { handleUserCreate } from "../userCreate";
 
-import { InputError } from "../../../error/InputError";
-import { UserExistError } from "../../../error/UserExistError";
+import { InputError } from "../../error/InputError";
+import { UserExistError } from "../../error/UserExistError";
 
-import { Log } from "../../../lib/logger";
-import { mockDB } from "../../../lib/database/mock";
-import { getMockPassword } from "../../../lib/password/mock";
+import { Log } from "../../lib/logger";
+import { mockDB } from "../../lib/database/mock";
+import { getMockPassword } from "../../lib/password/mock";
 
-import * as uuid from "../../useCase/generateUUID";
-import * as userRole from "../../useCase/getUserRole";
+import * as uuid from "../../route/useCase/generateUUID";
+import * as userRole from "../../route/useCase/getUserRole";
 
 const wrapper = (req: any) => handleUserCreate(Log(), mockDB, req);
 

@@ -1,10 +1,10 @@
 import { Logger } from "winston";
-import { COLLECTION_NAME, DB } from "../../lib/database";
-import { ReqUserUpdate } from "../../type/ReqUserUpdate";
-import { ResHandler } from "../../type/ResHandler";
-import { InputError } from "../../error/InputError";
-import { hashPassword } from "../../lib/password";
-import { IUser } from "../../type/IUser";
+import { COLLECTION_NAME, DB } from "../lib/database";
+import { ReqUserUpdate } from "../type/ReqUserUpdate";
+import { ResHandler } from "../type/ResHandler";
+import { InputError } from "../error/InputError";
+import { hashPassword } from "../lib/password";
+import { IUser } from "../type/IUser";
 
 export const handleUserUpdate = async (log: Logger, db: DB, id: string, body: ReqUserUpdate): Promise<ResHandler<IUser>> => {
   if (!id) throw new InputError("Id is malformed, cannot find user to update");

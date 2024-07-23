@@ -10,8 +10,8 @@ import { ReqUserUpdate } from "../type/ReqUserUpdate";
 import { IUser } from "../type/IUser";
 import { EnumRole } from "../type/EnumRole";
 
-import { handleUserCreate } from "./handler/userCreate";
-import { handleUserUpdate } from "./handler/userUpdate";
+import { handleUserCreate } from "../handler/userCreate";
+import { handleUserUpdate } from "../handler/userUpdate";
 
 import { jwtMiddleware } from "../middleware/jwtMiddleware";
 

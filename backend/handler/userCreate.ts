@@ -1,19 +1,19 @@
 import { Logger } from "winston";
 
-import { generateUUID } from "../useCase/generateUUID";
-import { getAdminRole } from "../useCase/getAdminRole";
+import { generateUUID } from "../route/useCase/generateUUID";
+import { getAdminRole } from "../route/useCase/getAdminRole";
 
-import { hashPassword } from "../../lib/password";
-import { COLLECTION_NAME, DB } from "../../lib/database";
+import { hashPassword } from "../lib/password";
+import { COLLECTION_NAME, DB } from "../lib/database";
 
-import { InputError } from "../../error/InputError";
-import { UserExistError } from "../../error/UserExistError";
+import { InputError } from "../error/InputError";
+import { UserExistError } from "../error/UserExistError";
 
-import { IUser } from "../../type/IUser";
-import { IRole } from "../../type/IRole";
-import { ResHandler } from "../../type/ResHandler";
-import { getUserRole } from "../useCase/getUserRole";
-import { ReqUserCreate } from "../../type/ReqUserCreate";
+import { IUser } from "../type/IUser";
+import { IRole } from "../type/IRole";
+import { ResHandler } from "../type/ResHandler";
+import { getUserRole } from "../route/useCase/getUserRole";
+import { ReqUserCreate } from "../type/ReqUserCreate";
 
 export const handleUserCreate = async (log: Logger, db: DB, req: ReqUserCreate): Promise<ResHandler<string>> => {
   const { username, password, name, admin } = req;

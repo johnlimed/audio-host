@@ -9,8 +9,8 @@ import { ReqRoleUpdate } from "../type/ReqRoleUpdate";
 import { Log } from "../lib/logger";
 import { COLLECTION_NAME } from "../lib/database";
 
-import { handleRoleCreate } from "./handler/roleCreate";
-import { handleRoleUpdate } from "./handler/roleUpdate";
+import { handleRoleCreate } from "../handler/roleCreate";
+import { handleRoleUpdate } from "../handler/roleUpdate";
 import { InputError } from "../error/InputError";
 import { jwtMiddleware } from "../middleware/jwtMiddleware";
 import { EnumRole } from "../type/EnumRole";

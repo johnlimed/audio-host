@@ -1,7 +1,7 @@
-import { InputError } from "../../../error/InputError";
-import { mockDB } from "../../../lib/database/mock";
-import { Log } from "../../../lib/logger";
-import { getMockPassword } from "../../../lib/password/mock";
+import { InputError } from "../../error/InputError";
+import { mockDB } from "../../lib/database/mock";
+import { Log } from "../../lib/logger";
+import { getMockPassword } from "../../lib/password/mock";
 import { handleUserUpdate } from "../userUpdate";
 
 const wrapper = (id: string, req: any) => handleUserUpdate(Log(), mockDB, id, req);

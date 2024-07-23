@@ -7,7 +7,8 @@ import { ServerState } from "../type/ServerState";
 import { ServerContext } from "../type/ServerContext";
 
 
-import { handleUserLogin } from "./handler/authLogin";
+import { handleUserLogin } from "../handler/authLogin";
+import { jwtMiddleware } from "../middleware/jwtMiddleware";
 
 const authRouter = new Router();
 
@@ -22,6 +23,8 @@ authRouter.post<ServerState, ServerContext, ReqLogin>('/login', async (ctx, next
 
   await next();
 });
+
+authRouter.use(jwtMiddleware());
 
 authRouter.post('/logout', async (ctx, next) => {
   ctx.body = "logout success";

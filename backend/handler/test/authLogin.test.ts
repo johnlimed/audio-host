@@ -1,11 +1,11 @@
-import { Log } from "../../../lib/logger";
-import { getMockJWT } from "../../../lib/jwt/mock";
-import { mockDB } from "../../../lib/database/mock";
-import { getMockPassword } from "../../../lib/password/mock";
+import { Log } from "../../lib/logger";
+import { getMockJWT } from "../../lib/jwt/mock";
+import { mockDB } from "../../lib/database/mock";
+import { getMockPassword } from "../../lib/password/mock";
 
 import { handleUserLogin } from "../authLogin";
 
-import { AuthenticationError } from "../../../error/AuthenticationError";
+import { AuthenticationError } from "../../error/AuthenticationError";
 
 const mockJWT = getMockJWT();
 const mockPassword = getMockPassword();
