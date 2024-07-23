@@ -39,7 +39,7 @@ userRouter.get<ServerState, ServerContext>('/:id', async (ctx, next) => {
 });
 
 userRouter.patch<ServerState, ServerContext, ReqUserUpdate>('/:id', async (ctx, next) => {
-  const res = handleUserUpdate(ctx.log, ctx.db, ctx.params.id, ctx.body);
+  const res = await handleUserUpdate(ctx.log, ctx.db, ctx.params.id, ctx.body);
   ctx.body = res.body;
   await next();
 });

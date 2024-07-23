@@ -8,6 +8,7 @@ import { generateUUID } from "../useCase/generateUUID";
 import { ResHandler } from "../../type/ResHandler";
 import { ReqRegister } from "../../type/ReqRegister";
 import { InputError } from "../../error/InputError";
+import { hashPassword } from "../../lib/password";
 
 export const handleUserCreate = async (log: Logger, db: DB, req: ReqRegister): Promise<ResHandler> => {
   const { username, password, name } = req;
@@ -22,7 +23,7 @@ export const handleUserCreate = async (log: Logger, db: DB, req: ReqRegister): P
   }
   
   log.info("[user][create] Registering new user", { username, password, name });
-  const hashedPassword = await argon2.hash(password);
+  const hashedPassword = await hashPassword(password);
   const id = generateUUID();
   db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name });
   
