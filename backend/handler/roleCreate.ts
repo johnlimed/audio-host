@@ -1,6 +1,6 @@
 import { Logger } from "winston";
 
-import { generateUUID } from "../route/useCase/generateUUID";
+import { generateUUID } from "../useCase/generateUUID";
 
 import { COLLECTION_NAME, DB } from "../lib/database";
 
