@@ -7,20 +7,639 @@
 	},
 	"item": [
 		{
-			"name": "Register User",
+			"name": "User",
+			"item": [
+				{
+					"name": "User Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"normal user 2\",\n    \"password\": \"123\",\n    \"name\": \"Jane doe\",\n    \"admin\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "User Create Already Exist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "User Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"john update3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/{{userId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"{{userId}}"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/{{userId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"{{userId}}"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Auth Login Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"adminToken\", responseJson.jwt);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"userToken\", responseJson.jwt);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"normal user\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Login Already Logged In",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Login Expired",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{expiredToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "Role Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"createdRoleId\", responseJson.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"software engineer\",\n    \"level\": \"8\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/role",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Role Create Already Exist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Admin\",\n    \"level\": \"10\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/role",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Role",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/role/{{roleId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role",
+								"{{roleId}}"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Roles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/role",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Role Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/role/{{createdRoleId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role",
+								"{{createdRoleId}}"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Role Delete Protected",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/role/{{roleId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role",
+								"{{roleId}}"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Role Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"software engineer 2\",\n    \"level\": \"5\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/role/{{createdRoleId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"role",
+								"{{createdRoleId}}"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Role Update",
 			"request": {
-				"method": "POST",
+				"method": "PATCH",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"User Update\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{host}}/register",
+					"raw": "{{host}}/role/{{roleId}}",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						"register"
+						"role",
+						"{{roleId}}"
 					]
 				},
 				"description": "Register user"
+			},
+			"response": []
+		},
+		{
+			"name": "hello world",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						""
+					]
+				}
 			},
 			"response": []
 		}
@@ -51,6 +670,40 @@
 		{
 			"key": "host",
 			"value": "localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "06b16695-7828-4046-9762-b7e7e241f305",
+			"type": "string"
+		},
+		{
+			"key": "adminId",
+			"value": "99ae8e89-a04b-48fa-a3b0-e38013b167d1",
+			"type": "string"
+		},
+		{
+			"key": "roleId",
+			"value": "388838ae-9b81-43d9-8cae-81638960c811",
+			"type": "string"
+		},
+		{
+			"key": "adminToken",
+			"value": "nil",
+			"type": "string"
+		},
+		{
+			"key": "userToken",
+			"value": "nil",
+			"type": "string"
+		},
+		{
+			"key": "expiredToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWQiOiI5OWFlOGU4OS1hMDRiLTQ4ZmEtYTNiMC1lMzgwMTNiMTY3ZDEiLCJpYXQiOjE3MjE2NzY4MDgsImV4cCI6MTcyMTY3NjgwOX0.JoJ0gQ24AutLprkXYM4_1zSHjPQ9DVRi18yb6EL2sqo"
+		},
+		{
+			"key": "createdRoleId",
+			"value": "nil",
 			"type": "string"
 		}
 	]

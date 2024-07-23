@@ -12,6 +12,8 @@ import { COLLECTION_NAME } from "../lib/database";
 import { handleRoleCreate } from "./handler/roleCreate";
 import { handleRoleUpdate } from "./handler/roleUpdate";
 import { InputError } from "../error/InputError";
+import { jwtMiddleware } from "../middleware/jwtMiddleware";
+import { EnumRole } from "../type/EnumRole";
 
 const roleRouter = new Router();
 
@@ -19,6 +21,11 @@ roleRouter.use(async (ctx, next) => {
   ctx.log = Log({ label: "role" });
   await next();
 });
+
+/**
+ * Admin routes
+ */
+roleRouter.use(jwtMiddleware(EnumRole.ADMIN));
 
 roleRouter.post<ServerState, ServerContext, ReqUserCreate>('/', async (ctx, next) => {
   const res = await handleRoleCreate(ctx.log, ctx.db, ctx.body);
