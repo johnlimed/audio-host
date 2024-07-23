@@ -66,24 +66,7 @@ Using [argon2](https://github.com/ranisalt/node-argon2)
 
 
 ## Endpoints
-### /register
-```javascript
-Example request
-{
-  username: string;
-  password: string;
-}
-
-Errors
-[User Exist](#UserExistError)
-
-Response
-{
-  
-}
-```
-
-### /login
+### /auth/login
 If login is called with a jwt token set in the authentication header, the token will be checked and if still valid, the user will be logged in.  
 ```javascript
 Example request
@@ -102,4 +85,29 @@ Response
 {
   jwt: string;
 }
+```
+### /auth/logout
+```javascript
+Example request
+{
+  username: string;
+}
+
+Response
+"logout success"
+```
+
+### /user/register
+```javascript
+Example request
+{
+  username: string;
+  password: string;
+}
+
+Errors
+[User Exist](#UserExistError)
+
+Response
+"successfully registered user."
 ```

@@ -3,7 +3,7 @@ import { getMockJWT } from "../../../lib/jwt/mock";
 import { mockDB } from "../../../lib/database/mock";
 import { getMockPassword } from "../../../lib/password/mock";
 
-import { handleUserLogin } from "../handleUserLogin";
+import { handleUserLogin } from "../authLogin";
 
 import { AuthenticationError } from "../../../error/AuthenticationError";
 
