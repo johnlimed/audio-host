@@ -41,6 +41,9 @@ Store username and id of user in token
 
 
 ## Errors
+### InputError
+If reason is given, it will be included in the error message. All error messages start with Input error.
+
 ### UserExistError
 status: 400
 Username taken. Create a new user with another username. 
@@ -87,6 +90,7 @@ Response
 }
 ```
 #### Errors
+[Input error](#InputError)  
 [Authentication error](#AuthenticationError)  
 [Authentication expired error](#AuthenticationExpiredError)  
 [Authentication malformed error](#AuthenticationMalformError)  

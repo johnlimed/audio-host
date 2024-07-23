@@ -10,6 +10,7 @@ export const COLLECTIONS = Object.values(COLLECTION_NAME);
 export interface DB {
   db: () => Loki,
   close: () => void,
+  update: <U, I>(collectionName: COLLECTION_NAME, id: string, update: U) => I;
   insert: <I>(collectionName: COLLECTION_NAME, values: I) => I,
   get: <I>(collectionName: COLLECTION_NAME, value: any) => I[],
 }
@@ -32,7 +33,8 @@ export const initDB = (log: Logger): DB => {
       if (values === null) {
         if (collection === COLLECTION_NAME.USER) {
           const newCollection = db.addCollection(collection);
-          newCollection.insert({ username: "admin", password: "$argon2id$v=19$m=65536,t=3,p=4$svTr0wptoFUtsi5uOwrF4g$VWqZTW7UjsJnb7I9MfTCoBvKPN7Mqs/dmzw8BJW/fEA", id: "99ae8e89-a04b-48fa-a3b0-e38013b167d1", name: "john doe" });
+          newCollection.insert({ id: "99ae8e89-a04b-48fa-a3b0-e38013b167d1", username: "admin", password: "$argon2id$v=19$m=65536,t=3,p=4$svTr0wptoFUtsi5uOwrF4g$VWqZTW7UjsJnb7I9MfTCoBvKPN7Mqs/dmzw8BJW/fEA", name: "john doe" });
+          newCollection.insert({ id: "06b16695-7828-4046-9762-b7e7e241f305", username: "normal user", password: "$argon2id$v=19$m=65536,t=3,p=4$8fhrNV56s2Rc75S6tFxYLw$VCGAHT9RecGxMpWtzJYcEkjd7BxX7TUI7P0bs+HVMLo", name: "jon doe" });
         } else {
           db.addCollection(collection);
         }
@@ -58,6 +60,18 @@ export const initDB = (log: Logger): DB => {
     get: <I>(collectionName: COLLECTION_NAME, value: any): I[] => {
       const col = db.getCollection(collectionName);
       return col.find(value);
+    },
+    update: <U, I>(collectionName: COLLECTION_NAME, id: string, update: U): I => {
+      const col = db.getCollection(collectionName);
+      const users = col.find({ id });
+      
+      const res = {
+        ...users[0],
+        ...update,
+      }
+      col.update(res);
+      
+      return res;
     },
     close: () => { db.close() },
   };

@@ -7,9 +7,12 @@ import { UserExistError } from "../../error/UserExistError";
 import { generateUUID } from "../useCase/generateUUID";
 import { ResHandler } from "../../type/ResHandler";
 import { ReqRegister } from "../../type/ReqRegister";
+import { InputError } from "../../error/InputError";
 
 export const handleUserCreate = async (log: Logger, db: DB, req: ReqRegister): Promise<ResHandler> => {
   const { username, password, name } = req;
+
+  if (!username || !password || !name) throw new InputError("One of the input is missing. Check input.");
 
   const existingUser = db.get<IUser>(COLLECTION_NAME.USER, { username });
 

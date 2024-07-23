@@ -3,4 +3,5 @@ export const mockDB = {
   insert: jest.fn(),
   get: jest.fn(),
   close: jest.fn(),
+  update: jest.fn(),
 }
