@@ -16,11 +16,17 @@ import router from "./route/router";
 import { ServerState } from "./type/ServerState";
 import { ServerContext } from "./type/ServerContext";
 
+import { mkdirIfNotExist } from "./useCase/mkdirIfNotExist";
+import { EnumPath } from "./type/EnumPath";
+
 const startServer = () => {
   const app = new Koa();
   const port = 3000;
   const logger = Log();
-  const db = initDB(logger, () => {
+  const db = initDB(logger, (adminId: string, userId: string) => {
+    mkdirIfNotExist(logger, EnumPath.STORE);
+    mkdirIfNotExist(logger, EnumPath.STORE + `/${adminId}`);
+    mkdirIfNotExist(logger, EnumPath.STORE + `/${userId}`);
     app.use(roleMiddleware(db));
     app.use(router.routes());
     app.use(router.allowedMethods());

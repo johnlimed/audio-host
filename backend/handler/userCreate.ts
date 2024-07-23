@@ -14,6 +14,8 @@ import { IRole } from "../type/IRole";
 import { ResHandler } from "../type/ResHandler";
 import { getUserRole } from "../useCase/getUserRole";
 import { ReqUserCreate } from "../type/ReqUserCreate";
+import { mkdirIfNotExist } from "../useCase/mkdirIfNotExist";
+import { EnumPath } from "../type/EnumPath";
 
 export const handleUserCreate = async (log: Logger, db: DB, req: ReqUserCreate): Promise<ResHandler<string>> => {
   const { username, password, name, admin } = req;
@@ -36,6 +38,9 @@ export const handleUserCreate = async (log: Logger, db: DB, req: ReqUserCreate):
   else role = getUserRole(db);
   
   db.insert<IUser>(COLLECTION_NAME.USER, { id, username, password: hashedPassword, name, roleId: role.id, archive: false });
+
+  // create dir
+  mkdirIfNotExist(log, EnumPath.STORE + `/${id}`);
   
   return {
     body: "successfully registered user.",

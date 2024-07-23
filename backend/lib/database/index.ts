@@ -20,7 +20,7 @@ export interface DB {
   archive: (collectionName: COLLECTION_NAME, id: string) => boolean,
 }
 
-export const initDB = (log: Logger, initCallback: () => void): DB => {
+export const initDB = (log: Logger, initCallback: (adminId: string, userId: string) => void): DB => {
   const dbReport = () => {
     COLLECTIONS.forEach((collection: string) => {
       const values = db.getCollection(collection);
@@ -32,14 +32,16 @@ export const initDB = (log: Logger, initCallback: () => void): DB => {
   const databaseInitialize = () => {
     // on the first load of (non-existent database), we will have no collections so we can 
     // detect the absence of our collections and add (and configure) them now.
+    const adminId = "99ae8e89-a04b-48fa-a3b0-e38013b167d1";
+    const userId = "06b16695-7828-4046-9762-b7e7e241f305";
     COLLECTIONS.map((collection: string) => {
       const values = db.getCollection(collection);
-
+      
       if (values === null) {
         if (collection === COLLECTION_NAME.USER) {
           const newCollection = db.addCollection(collection);
-          newCollection.insert({ id: "99ae8e89-a04b-48fa-a3b0-e38013b167d1", username: "admin", password: "$argon2id$v=19$m=65536,t=3,p=4$svTr0wptoFUtsi5uOwrF4g$VWqZTW7UjsJnb7I9MfTCoBvKPN7Mqs/dmzw8BJW/fEA", name: "john doe", roleId: "5d456477-4414-4ef3-9f39-e7c429030c95", archive: false });
-          newCollection.insert({ id: "06b16695-7828-4046-9762-b7e7e241f305", username: "normal user", password: "$argon2id$v=19$m=65536,t=3,p=4$8fhrNV56s2Rc75S6tFxYLw$VCGAHT9RecGxMpWtzJYcEkjd7BxX7TUI7P0bs+HVMLo", name: "jon doe", roleId: "388838ae-9b81-43d9-8cae-81638960c811", archive: false });
+          newCollection.insert({ id: adminId, username: "admin", password: "$argon2id$v=19$m=65536,t=3,p=4$svTr0wptoFUtsi5uOwrF4g$VWqZTW7UjsJnb7I9MfTCoBvKPN7Mqs/dmzw8BJW/fEA", name: "john doe", roleId: "5d456477-4414-4ef3-9f39-e7c429030c95", archive: false });
+          newCollection.insert({ id: userId, username: "normal user", password: "$argon2id$v=19$m=65536,t=3,p=4$8fhrNV56s2Rc75S6tFxYLw$VCGAHT9RecGxMpWtzJYcEkjd7BxX7TUI7P0bs+HVMLo", name: "jon doe", roleId: "388838ae-9b81-43d9-8cae-81638960c811", archive: false });
         } else if (collection === COLLECTION_NAME.ROLE) {
           const newCollection = db.addCollection(collection);
           newCollection.insert({ id: "5d456477-4414-4ef3-9f39-e7c429030c95", name: EnumRole.ADMIN, level: 0, archive: false });
@@ -50,7 +52,7 @@ export const initDB = (log: Logger, initCallback: () => void): DB => {
       }
     });
     dbReport();
-    initCallback();
+    initCallback(adminId, userId);
   }
 
   const db = new loki('./lib/database/audiohost.db', {
