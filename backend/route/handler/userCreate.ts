@@ -1,14 +1,16 @@
 import { Logger } from "winston";
-import argon2 from "argon2";
+
+import { generateUUID } from "../useCase/generateUUID";
 
 import { COLLECTION_NAME, DB } from "../../lib/database";
-import { IUser } from "../../type/IUser";
+import { hashPassword } from "../../lib/password";
+
+import { InputError } from "../../error/InputError";
 import { UserExistError } from "../../error/UserExistError";
-import { generateUUID } from "../useCase/generateUUID";
+
+import { IUser } from "../../type/IUser";
 import { ResHandler } from "../../type/ResHandler";
 import { ReqRegister } from "../../type/ReqRegister";
-import { InputError } from "../../error/InputError";
-import { hashPassword } from "../../lib/password";
 
 export const handleUserCreate = async (log: Logger, db: DB, req: ReqRegister): Promise<ResHandler> => {
   const { username, password, name } = req;
