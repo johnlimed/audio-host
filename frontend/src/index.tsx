@@ -2,10 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import CssBaseline from '@mui/material/CssBaseline'; 
+import { ThemeProvider } from '@mui/material/styles';
+
 import './index.css';
-import App from './App';
+// import App from './App';
+import theme from './theme';
 import reportWebVitals from './reportWebVitals';
 import NotFound from './Page/NotFound';
+
+const Home = React.lazy(() => import("./Page/Home"));
+const Login = React.lazy(() => import("./Page/Login"));
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,15 +21,26 @@ const root = ReactDOM.createRoot(
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Home />,
+    errorElement: <NotFound />
+  },
+  {
+    path: "/login",
+    element: <Login />,
     errorElement: <NotFound />
   }
 ])
 
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <React.StrictMode>
+      <div className="App">
+        <RouterProvider router={router} />
+      </div>
+    </React.StrictMode>
+  </ThemeProvider>
+  
 );
 
 // If you want to start measuring performance in your app, pass a function
