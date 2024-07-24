@@ -1,5 +1,6 @@
 import Koa from "koa";
 import http from 'http';
+import cors from '@koa/cors';
 import bodyParser from "koa-bodyparser";
 
 import { Log } from "./lib/logger";
@@ -37,7 +38,7 @@ const startServer = () => {
   app.use(errorMiddleware);
   app.use(dbMiddleware(db));
   app.use(shutdown(logger, db, server));
-
+  app.use(cors());
   app.use(bodyParser());
   app.use<ServerState, ServerContext>(async (ctx, next) => {
     ctx.body = ctx.request.body;

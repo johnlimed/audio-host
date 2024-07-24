@@ -6,12 +6,19 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 
 import './index.css';
-// import App from './App';
 import theme from './theme';
-import reportWebVitals from './reportWebVitals';
+import Home from './Page/Home';
 import NotFound from './Page/NotFound';
+import MainLayout from './Layout/Main';
+import reportWebVitals from './reportWebVitals';
 
-const Home = React.lazy(() => import("./Page/Home"));
+import loginAction from './Action/loginAction';
+import UserCreate from './Page/UserCreate';
+import signupAction from './Action/signupAction';
+import logoutAction from './Action/logoutAction';
+
+import authenticatedLoader from './Loader/authenticatedLoader';
+
 const Login = React.lazy(() => import("./Page/Login"));
 
 const root = ReactDOM.createRoot(
@@ -20,14 +27,33 @@ const root = ReactDOM.createRoot(
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
-    errorElement: <NotFound />
-  },
-  {
     path: "/login",
     element: <Login />,
-    errorElement: <NotFound />
+    action: loginAction
+  },
+  {
+    path: "/signup",
+    element: <UserCreate />,
+    action: signupAction
+  },
+  {
+    path: "/logout",
+    action: logoutAction
+  },
+  {
+    path: "/",
+    loader: authenticatedLoader,
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "*",
+        element: <NotFound />
+      }
+    ]
   }
 ])
 

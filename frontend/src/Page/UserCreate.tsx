@@ -15,11 +15,12 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import LinkText from "../Component/LinkText";
+import { ISignUpForm } from "../type/ISignUpForm";
 
-export default function Login() {
+export default function UserCreate() {
   const [showPassword, setShowPassword] = useState(false);
   
-  const actionData = useActionData() as { error: string } | undefined;
+  const actionData = useActionData() as ISignUpForm | undefined;
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -27,11 +28,13 @@ export default function Login() {
     event.preventDefault();
   };
 
+  const pwError = actionData?.passwordError;
+
   return (
     <Container component="main" maxWidth="xs">
       <Grid container display="flex" justifyContent={"center"}>
         <Grid item marginTop="200px">
-          <Typography component="h1" variant="h3">Login</Typography>
+          <Typography component="h1" variant="h3">Create Your Free Account</Typography>
         </Grid>
         <Grid item>
           <Form method="post">
@@ -48,11 +51,23 @@ export default function Login() {
                     autoFocus
                   />
                 </Grid>
+                <Grid item xs={12} sx={{ mt: 1 }}>
+                  <InputLabel required htmlFor="name">Name</InputLabel>
+                  <TextField
+                    required
+                    fullWidth
+                    id="name"
+                    name="name"
+                    autoComplete="name"
+                    autoFocus
+                  />
+                </Grid>
                 <Grid item xs={12} sx={{ mt: 1 }}>                
                   <InputLabel required htmlFor="password">Password</InputLabel>
                   <OutlinedInput
                     fullWidth
                     required
+                    error={pwError}
                     name="password"
                     id="password"
                     type={showPassword ? 'text' : 'password'}
@@ -69,6 +84,17 @@ export default function Login() {
                     }
                   />
                 </Grid>
+                <Grid item xs={12} sx={{ mt: 1 }}>
+                  <InputLabel required htmlFor="passwordCheck">Re enter your password</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    required
+                    error={pwError}
+                    name="passwordCheck"
+                    id="passwordCheck"
+                    type={showPassword ? 'text' : 'password'}
+                  />
+                </Grid>
               </Grid>
               <Grid item>
                 <Button
@@ -77,11 +103,11 @@ export default function Login() {
                   sx={{ mt: 3, mb: 2 }}
                   type="submit"
                 >
-                  Sign In
+                  Sign up
                 </Button>
               </Grid>
               <Grid item display="flex" justifyContent={"right"}>
-                <LinkText to="/signup" key="no-account-link" text="Don't have an account? Sign Up" />
+                <LinkText to="/" key="user-createhome-link" text="Back" />
               </Grid>
             </Box>
           </Form>

@@ -5,6 +5,8 @@ Material UI
 Wavesurfer js  
 React Helmet  
 
+TODO: V1 password is not hashed, plain password is sent to the server.  
+We need to hash the password before sending it to the server.  
 
 # Backend
 Koa server

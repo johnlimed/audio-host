@@ -4,9 +4,11 @@ import { Link as RouterLink } from "react-router-dom"
 
 type ButtonLinkProps = {
   to: string;
-  text: string;
+  text?: string;
   newTab?: boolean;
+  fullWidth?: boolean;
   sx?: SxProps<Theme> | undefined;
+  children?: string | JSX.Element | JSX.Element[] | "() => JSX.Element";
 }
 
 export default function ButtonLink(props: ButtonLinkProps) {
@@ -15,12 +17,13 @@ export default function ButtonLink(props: ButtonLinkProps) {
       color="primary"
       variant="contained"
       size="small"
+      fullWidth={props.fullWidth}
       to={props.to}
       component={RouterLink}
       target={props.newTab ? "_blank" : undefined}
       sx={props.sx}
     >
-      {props.text}
+      {props.children || props.text}
     </Button>
   )
 }

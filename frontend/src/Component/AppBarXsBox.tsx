@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useFetcher } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -7,7 +9,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 
 import MenuIcon from '@mui/icons-material/Menu';
-import ButtonLink from "./ButtonLink";
 
 type AppBarXsBoxProps = {
   menuItems: { name: string, link: string }[]
@@ -15,6 +16,7 @@ type AppBarXsBoxProps = {
 
 export default function AppBarXsBox(props: AppBarXsBoxProps) {
   const [open, setOpen] = useState(false);
+  const fetcher = useFetcher();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
@@ -58,11 +60,11 @@ export default function AppBarXsBox(props: AppBarXsBoxProps) {
           }
           <Divider />
           <MenuItem>
-            <ButtonLink
-              to="/logout"
-              text="logout"
-              sx={{ width: "100%" }}
-            />
+            <fetcher.Form method="post" action="/logout">
+              <Button variant="contained" type="submit">
+                Logout
+              </Button>
+            </fetcher.Form>
           </MenuItem>
         </Box>
       </Drawer>

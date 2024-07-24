@@ -2,13 +2,15 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 
-import ButtonLink from "./ButtonLink";
+import { useFetcher } from "react-router-dom";
+import { Button } from "@mui/material";
 
 type AppBarMdBoxProps = {
   menuItems: { name: string, link: string }[]
 }
 
 export default function AppBarMdBox(props: AppBarMdBoxProps) {
+  const fetcher = useFetcher();
   return (
     <>
       <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -36,10 +38,11 @@ export default function AppBarMdBox(props: AppBarMdBoxProps) {
           alignItems: 'center',
         }}
       >
-        <ButtonLink
-          to="/logout"
-          text="logout"
-        />
+        <fetcher.Form method="post" action="/logout">
+          <Button variant="contained" type="submit">
+            Logout
+          </Button>
+        </fetcher.Form>
       </Box>
     </>
   )
