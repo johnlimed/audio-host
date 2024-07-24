@@ -61,7 +61,7 @@ export default function AppBarXsBox(props: AppBarXsBoxProps) {
           <Divider />
           <MenuItem>
             <fetcher.Form method="post" action="/logout">
-              <Button variant="contained" type="submit">
+              <Button size="small" variant="contained" type="submit">
                 Logout
               </Button>
             </fetcher.Form>

@@ -17,6 +17,7 @@ import { EnumPath } from "../type/EnumPath";
 import { generateUUID } from "../useCase/generateUUID";
 import { AuthorizationError } from "../error/AuthorizationError";
 import { InputError } from "../error/InputError";
+import { removeFields } from "../useCase/removeFields";
 
 const trackRouter = new Router();
 const userRouter = new Router();
@@ -28,8 +29,10 @@ userRouter.use(jwtMiddleware());
  * Get all of own tracks
  */
 userRouter.get<ServerState, ServerContext>("/", async (ctx) => {
-  const res = handleGetOwnTracks(ctx.log, ctx.db, ctx.state.jwt.id);
-  ctx.body = res.body;
+  const data = handleGetOwnTracks(ctx.log, ctx.db, ctx.state.jwt.id);
+  const res = removeFields(data.body, ["filepath"]);
+  
+  ctx.body = res;
 });
 
 const upload = multer();
@@ -71,7 +74,9 @@ userRouter.delete<ServerState, ServerContext>("/:id", async (ctx) => {
  */
 adminRouter.use(jwtMiddleware(EnumRole.ADMIN));
 adminRouter.get<ServerState, ServerContext>("/", async (ctx) => {
-  const tracks = ctx.db.get<ITrack>(COLLECTION_NAME.TRACK, {});
+  const data = ctx.db.get<ITrack>(COLLECTION_NAME.TRACK, {});
+  const tracks = removeFields(data, ["filepath"]);
+
   ctx.body = tracks;
 });
 
