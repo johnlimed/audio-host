@@ -1,26 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Snackbar from '@mui/material/Snackbar';
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from '@mui/icons-material/Close';
 
 import AppBarFloat from "../Component/AppBarFloat";
+import { SnackContext } from "../Context/appContext";
 
-type MainLayoutProps = {
-  children?: string | JSX.Element | JSX.Element[] | "() => JSX.Element";
-}
+function MainLayout() {
+  const [message, setMessage] = useState<string>("Default message");
+  const [openSnackbar, setOpenSnackbar] = useState<boolean>(true);
 
-function MainLayout(props: MainLayoutProps) {
-  return (
+  const action = (
     <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={() => setOpenSnackbar(false)}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  return (
+    <SnackContext.Provider
+      value={{
+        message,
+        setMessage,
+        setOpenSnackbar
+      }}
+    >
       <AppBarFloat />
       <Outlet />
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        open={true}
+        open={openSnackbar}
         onClose={() => { }}
-        message="I love snacks"
+        message={message}
         key={"bottom-center-snack"}
+        action={action}
       />
-    </React.Fragment>
+    </SnackContext.Provider>
   );
 }
 

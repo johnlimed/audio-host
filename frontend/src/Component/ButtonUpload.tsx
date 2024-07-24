@@ -1,6 +1,8 @@
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { useContext } from 'react';
+import { SnackContext } from '../Context/appContext';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -19,6 +21,8 @@ type InputFileUploadProps = {
 }
 
 export default function InputFileUpload(props: InputFileUploadProps) {
+  const { setMessage, setOpenSnackbar } = useContext(SnackContext);
+  
   return (
     <>
       <Button
