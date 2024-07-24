@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 
 import { useFetcher } from "react-router-dom";
 import { Button } from "@mui/material";
+import InputFileUpload from "./ButtonUpload";
 
 type AppBarMdBoxProps = {
   menuItems: { name: string, link: string }[]
@@ -38,8 +39,9 @@ export default function AppBarMdBox(props: AppBarMdBoxProps) {
           alignItems: 'center',
         }}
       >
+        <InputFileUpload />
         <fetcher.Form method="post" action="/logout">
-          <Button size="small" variant="contained" type="submit">
+          <Button size="small" type="submit">
             Logout
           </Button>
         </fetcher.Form>

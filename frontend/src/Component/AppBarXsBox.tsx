@@ -9,6 +9,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 
 import MenuIcon from '@mui/icons-material/Menu';
+import InputFileUpload from "./ButtonUpload";
 
 type AppBarXsBoxProps = {
   menuItems: { name: string, link: string }[]
@@ -60,8 +61,11 @@ export default function AppBarXsBox(props: AppBarXsBoxProps) {
           }
           <Divider />
           <MenuItem>
-            <fetcher.Form method="post" action="/logout">
-              <Button size="small" variant="contained" type="submit">
+            <InputFileUpload fullWidth={true}/>
+          </MenuItem>
+          <MenuItem>
+            <fetcher.Form method="post" action="/logout" style={{ width: "100%" }}>
+              <Button size="small" type="submit" fullWidth={true}>
                 Logout
               </Button>
             </fetcher.Form>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Snackbar from '@mui/material/Snackbar';
 
 import AppBarFloat from "../Component/AppBarFloat";
 
@@ -12,6 +13,13 @@ function MainLayout(props: MainLayoutProps) {
     <React.Fragment>
       <AppBarFloat />
       <Outlet />
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={true}
+        onClose={() => { }}
+        message="I love snacks"
+        key={"bottom-center-snack"}
+      />
     </React.Fragment>
   );
 }
