@@ -11,7 +11,9 @@ export default async function logoutAction() {
     if (jwt) {
       await axios.post<boolean>(`${EnumHost.LOCAL}${EnumEndpoint.LOGOUT}`, {}, {
         headers: {
-          "Authorization": `Bearer ${jwt}` } });
+          "Authorization": `Bearer ${jwt}` 
+        } 
+      });
       window.sessionStorage.removeItem("jwt");
     }
   } catch (error) {

@@ -42,7 +42,9 @@ userRouter.post<ServerState, ServerContext>("/", upload.single("file"), async (c
   const filepath = `${EnumPath.STORE}/${ctx.state.jwt.id}/${id}_${encodeURI(ctx.file.originalname)}`;
   await fsPromises.writeFile(filepath, ctx.file.buffer);
   const track = ctx.db.insert<ITrack>(COLLECTION_NAME.TRACK, { id, filename: ctx.file.originalname, filepath, ownerId: ctx.state.jwt.id, archive: false });
-  ctx.body = track;
+  ctx.log.info(`${ctx.state.jwt.id} Uploaded track ${id}`);
+  const res = removeFields(track, ["filepath"]);
+  ctx.body = res;
 });
 
 userRouter.get<ServerState, ServerContext>("/:id", (ctx) => {

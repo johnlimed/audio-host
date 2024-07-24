@@ -4,28 +4,27 @@ import { LoaderFunctionArgs } from "react-router-dom";
 import { EnumHost } from "../type/EnumHost";
 import { EnumEndpoint } from "../type/EnumEndpoint";
 import { ITrackRes } from "../type/ITrackRes";
+import { IFile } from "../type/IFile";
 
 export default async function uploadAction({ request }: LoaderFunctionArgs) {
-  const formData = await request.formData();
-  const passwordCheck = formData.get("passwordCheck") as string | null;
-
-  if (!passwordCheck) {
-    return {
-      error: "Please re enter your password",
-    }
-  }
   const jwt = window.sessionStorage.getItem("jwt");
+  const { files } = document.querySelector('#fileUpload') as any;
+  const file = files[0] as IFile[];
   try {
     const res = await axios.post<ITrackRes>(`${EnumHost.LOCAL}${EnumEndpoint.TRACK}`, 
-      {}, 
+      {
+        file,
+      },
       {
         headers: {
+          'Content-Type': 'multipart/form-data',
           "Authorization": `Bearer ${jwt}`
         }
       }
     );
-    console.log(res)
+
     const track = res.data;
+    console.log(track)
     return {
       track,
     }

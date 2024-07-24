@@ -1,8 +1,10 @@
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { SnackContext } from '../Context/appContext';
+import { Form, useActionData } from 'react-router-dom';
+import { ITrackRes } from '../type/ITrackRes';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -22,9 +24,30 @@ type InputFileUploadProps = {
 
 export default function InputFileUpload(props: InputFileUploadProps) {
   const { setMessage, setOpenSnackbar } = useContext(SnackContext);
+  const [visible, setVisible] = useState(false);
   
+  const onChange = (e: any) => {
+    e.preventDefault();
+    setVisible(true);
+  }
+
+  const actionData = useActionData() as { track: ITrackRes } | { error: string } | undefined;
+  
+  useEffect(() => {
+    console.log(actionData)
+    if (actionData) {
+      if ("error" in actionData) {
+        setMessage(actionData.error);
+      } else {
+        setMessage(`File ${actionData.track.filename} uploaded.`);
+      }
+      setOpenSnackbar(true);
+      setVisible(false);
+    }
+  }, [actionData, setMessage, setOpenSnackbar]);
+
   return (
-    <>
+    <Form id="upload-file-form" method="post">
       <Button
         fullWidth={props.fullWidth}
         size={"small"}
@@ -34,9 +57,10 @@ export default function InputFileUpload(props: InputFileUploadProps) {
         tabIndex={-1}
         startIcon={<CloudUploadIcon />}
       >
-        Upload file
-        <VisuallyHiddenInput type="file" />
+        Select file
+        <VisuallyHiddenInput id="fileUpload" name="fileUpload" type="file" onChange={onChange} />
       </Button>
-    </>
+      <Button size="small" type="submit" sx={{ ml: "5px", display: !visible ? "none" : "inline-flex" }}>Upload</Button>
+    </Form>
   );
 }

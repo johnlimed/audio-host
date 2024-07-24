@@ -13,6 +13,7 @@ import logoutAction from './Action/logoutAction';
 
 import authenticatedLoader from './Loader/authenticatedLoader';
 import trackLoader from './Loader/trackLoader';
+import uploadAction from './Action/uploadAction';
 
 const Login = React.lazy(() => import("./Page/Login"));
 
@@ -35,6 +36,7 @@ export default createBrowserRouter([
     path: "/",
     loader: authenticatedLoader,
     element: <MainLayout />,
+    action: uploadAction,
     children: [
       {
         index: true,

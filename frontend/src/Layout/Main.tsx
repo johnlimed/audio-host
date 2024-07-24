@@ -9,7 +9,7 @@ import { SnackContext } from "../Context/appContext";
 
 function MainLayout() {
   const [message, setMessage] = useState<string>("Default message");
-  const [openSnackbar, setOpenSnackbar] = useState<boolean>(true);
+  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
 
   const action = (
     <React.Fragment>
@@ -17,7 +17,10 @@ function MainLayout() {
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={() => setOpenSnackbar(false)}
+        onClick={(e) => {
+          e.preventDefault();
+          setOpenSnackbar(false);
+        }}
       >
         <CloseIcon fontSize="small" />
       </IconButton>
@@ -37,8 +40,9 @@ function MainLayout() {
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={openSnackbar}
-        onClose={() => { }}
         message={message}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackbar(false)}
         key={"bottom-center-snack"}
         action={action}
       />
