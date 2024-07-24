@@ -1,4 +1,9 @@
 # Frontend
+React 
+React Router v6  
+Material UI  
+Wavesurfer js  
+React Helmet  
 
 
 # Backend
