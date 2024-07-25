@@ -13,7 +13,7 @@ export default async function trackLoader({ request }: LoaderFunctionArgs) {
   });
 
   const tracks = res.data;
-  console.log(tracks)
+
   return {
     tracks
   };

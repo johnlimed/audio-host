@@ -24,7 +24,7 @@ export default async function uploadAction({ request }: LoaderFunctionArgs) {
     );
 
     const track = res.data;
-    console.log(track)
+
     return {
       track,
     }

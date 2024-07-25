@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.4",
@@ -14,6 +15,7 @@
     "@types/node": "^16.18.103",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "@wavesurfer/react": "^1.0.7",
     "axios": "^1.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -50,6 +52,7 @@
   },
   "devDependencies": {
     "@types/react-helmet": "^6.1.11",
+    "@types/wavesurfer.js": "^6.0.12",
     "react-app-rewired": "^2.2.1"
   }
 }

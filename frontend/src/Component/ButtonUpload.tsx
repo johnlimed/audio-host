@@ -34,7 +34,6 @@ export default function InputFileUpload(props: InputFileUploadProps) {
   const actionData = useActionData() as { track: ITrackRes } | { error: string } | undefined;
   
   useEffect(() => {
-    console.log(actionData)
     if (actionData) {
       if ("error" in actionData) {
         setMessage(actionData.error);

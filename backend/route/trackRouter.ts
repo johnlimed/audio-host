@@ -50,6 +50,7 @@ userRouter.post<ServerState, ServerContext>("/", upload.single("file"), async (c
 userRouter.get<ServerState, ServerContext>("/:id", (ctx) => {
   const { id } = ctx.params;
   if (!id) throw new InputError("Id not provided");
+  ctx.log.info(`Playing ${ctx.state.jwt.id}'s track ${id}`);
   const tracks = ctx.db.get<ITrack>(COLLECTION_NAME.TRACK, { id });
 
   if (!tracks || tracks.length === 0) throw new InputError("Track not found");
