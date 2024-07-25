@@ -6,7 +6,7 @@ export interface ServerState {
     [name: string]: IRole
   };
   userRoleId: string;
-  adminRolesId: string;
+  adminRoleId: string;
   userId: string;
   adminId: string;
   jwt?: IJWTPayload;

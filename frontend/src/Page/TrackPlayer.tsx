@@ -149,7 +149,7 @@ export default function TrackPlayer() {
               sx={{ display:"none" }}
               value={deleteId}
             />
-            <Button type="submit" autoFocus>
+            <Button type="submit" autoFocus onClick={closeDialog}>
               Confirm
             </Button>
           </Form>

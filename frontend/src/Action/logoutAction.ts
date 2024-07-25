@@ -15,6 +15,7 @@ export default async function logoutAction() {
         } 
       });
       window.sessionStorage.removeItem("jwt");
+      window.sessionStorage.removeItem("isAdmin");
     }
   } catch (error) {
     console.error(error)

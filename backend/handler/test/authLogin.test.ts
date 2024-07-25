@@ -36,7 +36,7 @@ describe("Given handleUserLogin is called", () => {
       expect(mockJWT.verifyJWT).toHaveBeenCalledTimes(1);
     });
     it("Then returns the token", () => {
-      expect(result).toStrictEqual({ body: { jwt: "string" }});
+      expect(result).toStrictEqual({ body: { jwt: "string", payload: { id: "id", roleId: "roleId", roleLevel: 1, username: "username" } }});
     });
   });
 
@@ -81,7 +81,7 @@ describe("Given handleUserLogin is called", () => {
       expect(mockJWT.signJWT).toHaveBeenCalledTimes(1);
     });
     it("Then returns jwt token", () => {
-      expect(result).toStrictEqual({ body: { jwt: "token" }});
+      expect(result).toStrictEqual({ body: { jwt: "token", payload: { id: undefined, roleId: undefined, roleLevel: 10, username: undefined } }});
     });
   });
 });

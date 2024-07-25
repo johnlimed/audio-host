@@ -77,7 +77,7 @@ describe("Given userCreate is called", () => {
     });
     it("Then returns body", () => {
       expect(res).toStrictEqual({
-        body: "successfully registered user.",
+        body: {},
         status: 200,
       })
     });

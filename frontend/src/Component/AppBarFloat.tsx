@@ -4,11 +4,10 @@ import Container from "@mui/material/Container";
 import AppBarMdBox from "./AppBarMdBox";
 import AppBarXsBox from "./AppBarXsBox";
 
-
 export default function AppBarFloat() {
   const menuItems = [
     { name: "Home", link: "/" },
-    { name: "Users", link: "/users" },
+    { name: "Users", link: "/users", isAdmin: true },
   ];
   
   return (

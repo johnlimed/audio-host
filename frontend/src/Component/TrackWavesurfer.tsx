@@ -67,11 +67,11 @@ export default function TrackWavesurfer(props: TrackPlayerProps) {
           labelColor: '#fff',
           labelSize: '11px',
         }),
-        Spectrogram.create({
-          labels: true,
-          height: 80,
-          splitChannels: true,
-        }),
+        // Spectrogram.create({
+        //   labels: true,
+        //   height: 80,
+        //   splitChannels: true,
+        // }),
       ]
     });
 

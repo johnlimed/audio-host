@@ -25,6 +25,8 @@ export default async function loginAction({ request }: LoaderFunctionArgs) {
   try {
     const res = await axios.post<ILoginRes>(`${EnumHost.LOCAL}${EnumEndpoint.LOGIN}`, { username, password });
     window.sessionStorage.setItem("jwt", res.data.jwt);
+    // Very insecure way of determining role.
+    window.sessionStorage.setItem("isAdmin", res.data.isAdmin);
   } catch (error) {
     console.error(error)
     if (error instanceof AxiosError) {

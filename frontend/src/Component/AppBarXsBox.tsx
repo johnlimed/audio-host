@@ -10,9 +10,10 @@ import Typography from "@mui/material/Typography";
 
 import MenuIcon from '@mui/icons-material/Menu';
 import InputFileUpload from "./ButtonUpload";
+import { isAdmin } from "../util/auth";
 
 type AppBarXsBoxProps = {
-  menuItems: { name: string, link: string }[]
+  menuItems: { name: string, link: string, isAdmin?: boolean }[]
 }
 
 export default function AppBarXsBox(props: AppBarXsBoxProps) {
@@ -45,6 +46,9 @@ export default function AppBarXsBox(props: AppBarXsBoxProps) {
         >          
           {
             props.menuItems.map((menuItem, index) => {
+              if (menuItem.isAdmin && !isAdmin()) {
+                return null;
+              }
               return (
                 <MenuItem
                   key={`${index}-xs-menuitem`}

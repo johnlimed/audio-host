@@ -3,5 +3,4 @@ export interface IUserRes {
   username: string,
   name: string,
   roleId: string,
-  archive: boolean,
 }

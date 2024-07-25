@@ -17,7 +17,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import LinkText from "../Component/LinkText";
 import { ISignUpForm } from "../type/ISignUpForm";
 
-export default function UserCreate() {
+export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   
   const actionData = useActionData() as ISignUpForm | undefined;

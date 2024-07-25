@@ -5,9 +5,10 @@ import Typography from "@mui/material/Typography";
 import { useFetcher } from "react-router-dom";
 import { Button } from "@mui/material";
 import InputFileUpload from "./ButtonUpload";
+import { isAdmin } from "../util/auth";
 
 type AppBarMdBoxProps = {
-  menuItems: { name: string, link: string }[]
+  menuItems: { name: string, link: string, isAdmin?: boolean }[]
 }
 
 export default function AppBarMdBox(props: AppBarMdBoxProps) {
@@ -17,6 +18,9 @@ export default function AppBarMdBox(props: AppBarMdBoxProps) {
       <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
         {
           props.menuItems.map((menuItem, index) => {
+            if (menuItem.isAdmin && !isAdmin()) {
+              return null;
+            }
             return (
               <MenuItem
                 key={`${index}-md-menuitem`}

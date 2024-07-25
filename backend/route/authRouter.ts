@@ -20,7 +20,7 @@ authRouter.use(async (ctx, next) => {
 authRouter.post<ServerState, ServerContext, ReqLogin>('/login', async (ctx) => {
   const res = await handleUserLogin(ctx.log, ctx.db, ctx.body, ctx.request.header.authorization);
   ctx.state.jwt = res.body.payload;
-  ctx.body = { jwt: res.body.jwt };
+  ctx.body = { jwt: res.body.jwt, isAdmin: res.body.payload.roleId === ctx.state.adminRoleId };
 });
 
 authRouter.use(jwtMiddleware());

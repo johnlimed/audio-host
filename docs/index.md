@@ -8,6 +8,9 @@ React Helmet
 TODO: V1 password is not hashed, plain password is sent to the server.  
 We need to hash the password before sending it to the server.  
 
+Ideally, admin and normal user sites should be made separate for the best security.  
+It is a compromise that we do frontend checks between admin and normal users. 
+
 # Backend
 Koa server
 Endpoints > Handler > Use cases

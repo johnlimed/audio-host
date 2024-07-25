@@ -1,9 +1,8 @@
 import React from 'react';
 import { createBrowserRouter } from "react-router-dom";
 
-import TrackPlayer from './Page/TrackPlayer';
 import NotFound from './Page/NotFound';
-import UserCreate from './Page/UserCreate';
+import SignUp from './Page/Signup';
 
 import MainLayout from './Layout/Main';
 
@@ -17,6 +16,7 @@ import uploadAction from './Action/uploadAction';
 import deleteAction from './Action/deleteAction';
 
 const Login = React.lazy(() => import("./Page/Login"));
+const TrackPlayer = React.lazy(() => import("./Page/TrackPlayer"));
 
 export default createBrowserRouter([
   {
@@ -26,7 +26,7 @@ export default createBrowserRouter([
   },
   {
     path: "/signup",
-    element: <UserCreate />,
+    element: <SignUp />,
     action: signupAction
   },
   {
