@@ -67,7 +67,12 @@ export default function TrackWavesurfer(props: TrackPlayerProps) {
           labelColor: '#fff',
           labelSize: '11px',
         }),
-      ],
+        Spectrogram.create({
+          labels: true,
+          height: 80,
+          splitChannels: true,
+        }),
+      ]
     });
 
     // Play/pause on click
@@ -97,15 +102,6 @@ export default function TrackWavesurfer(props: TrackPlayerProps) {
       ws.playPause();
     }
 
-    // Initialize the Spectrogram plugin
-    ws.registerPlugin(
-      Spectrogram.create({
-        labels: true,
-        height: 80,
-        splitChannels: true,
-      }),
-    )
-
     setWavesurfer(ws);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -124,6 +120,7 @@ export default function TrackWavesurfer(props: TrackPlayerProps) {
         });
 
         await wavesurfer.loadBlob(res.data);
+
         const cav = document.querySelectorAll('div#waveform > div') as any;
         cav[3].style.display = "none";
       }

@@ -10,7 +10,7 @@ export default function NotFound() {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Audio500: Ops</title>
+        <title>Ops</title>
         <meta name="description" content="Not found." />
       </Helmet>
       <Grid container>

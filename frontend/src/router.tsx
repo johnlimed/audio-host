@@ -14,6 +14,7 @@ import logoutAction from './Action/logoutAction';
 import authenticatedLoader from './Loader/authenticatedLoader';
 import trackLoader from './Loader/trackLoader';
 import uploadAction from './Action/uploadAction';
+import deleteAction from './Action/deleteAction';
 
 const Login = React.lazy(() => import("./Page/Login"));
 
@@ -41,7 +42,8 @@ export default createBrowserRouter([
       {
         index: true,
         element: <TrackPlayer />,
-        loader: trackLoader
+        loader: trackLoader,
+        action: deleteAction
       },
       {
         path: "*",

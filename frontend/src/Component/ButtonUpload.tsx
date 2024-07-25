@@ -26,8 +26,7 @@ export default function InputFileUpload(props: InputFileUploadProps) {
   const { setMessage, setOpenSnackbar } = useContext(SnackContext);
   const [visible, setVisible] = useState(false);
   
-  const onChange = (e: any) => {
-    e.preventDefault();
+  const onChange = () => {
     setVisible(true);
   }
 
@@ -57,7 +56,7 @@ export default function InputFileUpload(props: InputFileUploadProps) {
         startIcon={<CloudUploadIcon />}
       >
         Select file
-        <VisuallyHiddenInput id="fileUpload" name="fileUpload" type="file" onChange={onChange} />
+        <VisuallyHiddenInput id="fileUpload" name="fileUpload" type="file" onClick={onChange} />
       </Button>
       <Button size="small" type="submit" sx={{ ml: "5px", display: !visible ? "none" : "inline-flex" }}>Upload</Button>
     </Form>
