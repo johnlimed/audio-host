@@ -22,7 +22,7 @@ import { EnumPath } from "./type/EnumPath";
 
 const startServer = () => {
   const app = new Koa();
-  const port = 3000;
+  const port = 3001;
   const logger = Log();
   const db = initDB(logger, async (adminId: string, userId: string) => {
     await mkdirIfNotExist(logger, EnumPath.STORE);

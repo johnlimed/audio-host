@@ -56,6 +56,20 @@ export default function TrackPlayer() {
     }
   }
 
+  const skipNext = useCallback(() => {
+    const newIndex = trackIndex + 1;
+    if (newIndex < tracks.length) {
+      setTrackIndex(newIndex);
+    }
+  }, [trackIndex, tracks.length]);
+
+  const skipPrevious = useCallback(() => {
+    const newIndex = trackIndex - 1;
+    if (newIndex >= 0) {
+      setTrackIndex(newIndex);
+    }
+  }, [trackIndex])
+
   const renderTracks = () => {
     const curTrack = tracks[trackIndex];
     if (!curTrack) {
@@ -87,6 +101,8 @@ export default function TrackPlayer() {
               externalPaused={paused} 
               filename={curTrack.filename} 
               playOnClick={() => {setPaused(!paused)} } 
+              skipNext={skipNext}
+              skipPrevious={skipPrevious}
             />
           </Grid>
           <Grid item xs={8}>

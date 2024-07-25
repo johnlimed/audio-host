@@ -6,6 +6,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 
+import SkipNext from "@mui/icons-material/SkipNext";
+import SkipPrevious from "@mui/icons-material/SkipPrevious";
 import PauseRounded from "@mui/icons-material/PauseRounded";
 import PlayArrowRounded from "@mui/icons-material/PlayArrowRounded";
 import FastRewindRounded from '@mui/icons-material/FastRewindRounded';
@@ -16,6 +18,8 @@ type TrackCardProps = {
   id: string;
   externalPaused?: boolean;
   playOnClick?: () => void;
+  skipNext?: () => void;
+  skipPrevious?: () => void;
 }
 
 function randomIntFromInterval(min: number, max: number) { // min and max included 
@@ -29,7 +33,7 @@ export default function TrackCard(props: TrackCardProps) {
     if (props.externalPaused !== undefined) {
       setPaused(props.externalPaused);
     }
-  }, [props.externalPaused])
+  }, [props.externalPaused]);
 
   return (
     <Card
@@ -69,6 +73,11 @@ export default function TrackCard(props: TrackCardProps) {
           </Typography>
         </div>
         <Stack direction="row" alignItems="center" spacing={1} useFlexGap>
+          <IconButton id="track-card-previous" aria-label="Previous skip" size="small"
+            onClick={() => { if (props.skipPrevious) props.skipPrevious(); }}
+          >
+            <SkipPrevious fontSize="small" />
+          </IconButton>
           <IconButton id="track-card-rewind" aria-label="Fast rewind" size="small">
             <FastRewindRounded fontSize="small" />
           </IconButton>
@@ -82,6 +91,11 @@ export default function TrackCard(props: TrackCardProps) {
           </IconButton>
           <IconButton id="track-card-fastfoward" aria-label="Fast forward" size="small">
             <FastForwardRounded fontSize="small" />
+          </IconButton>
+          <IconButton id="track-card-next" aria-label="Next skip" size="small"
+            onClick={() => { if (props.skipNext) props.skipNext(); }}
+          >
+            <SkipNext fontSize="small" />
           </IconButton>
         </Stack>
       </Stack>

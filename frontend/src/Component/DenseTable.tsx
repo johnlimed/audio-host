@@ -6,7 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type DenseTableProps = {
   name: string;
@@ -19,6 +19,12 @@ type DenseTableProps = {
 
 export default function DenseTable(props: DenseTableProps) {
   const [curRow, setCurRow] = useState(0);
+
+  useEffect(() => {
+    if (props.focusIndex) {
+      setCurRow(props.focusIndex);
+    }
+  }, [props.focusIndex]);
 
   const renderCol = (colsVal: string[], rowIndex: number) => {
     const cols = colsVal.map((col, colIndex) => (
