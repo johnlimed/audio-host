@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
@@ -13,10 +13,23 @@ import FastForwardRounded from "@mui/icons-material/FastForwardRounded";
 
 type TrackCardProps = {
   filename: string;
+  id: string;
+  externalPaused?: boolean;
+  playOnClick?: () => void;
+}
+
+function randomIntFromInterval(min: number, max: number) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 export default function TrackCard(props: TrackCardProps) {
   const [paused, setPaused] = useState(true);
+  const rndInt = randomIntFromInterval(1, 3);
+  useEffect(() => {
+    if (props.externalPaused !== undefined) {
+      setPaused(props.externalPaused);
+    }
+  }, [props.externalPaused])
 
   return (
     <Card
@@ -34,8 +47,8 @@ export default function TrackCard(props: TrackCardProps) {
         component="img"
         width="100"
         height="100"
-        alt="Contemplative Reptile album cover"
-        src="/images/contemplative-reptile.jpg"
+        alt={`${props.id}-img`}
+        src={`a${rndInt}.png`}
         sx={{
           width: { xs: '100%', sm: 100 },
         }}
@@ -52,21 +65,22 @@ export default function TrackCard(props: TrackCardProps) {
             textAlign="center"
             sx={{ width: '100%' }}
           >
-            Sounds of Nature
+            {props.id}
           </Typography>
         </div>
         <Stack direction="row" alignItems="center" spacing={1} useFlexGap>
-          <IconButton aria-label="Fast rewind" disabled size="small">
+          <IconButton id="track-card-rewind" aria-label="Fast rewind" size="small">
             <FastRewindRounded fontSize="small" />
           </IconButton>
           <IconButton
+            id="track-card-play-pause"
             aria-label={paused ? 'Play music' : 'Pause music'}
-            onClick={() => setPaused((val) => !val)}
+            onClick={props.playOnClick ? props.playOnClick : () => setPaused((val) => !val)}
             sx={{ mx: 1 }}
           >
             {paused ? <PlayArrowRounded /> : <PauseRounded />}
           </IconButton>
-          <IconButton aria-label="Fast forward" disabled size="small">
+          <IconButton id="track-card-fastfoward" aria-label="Fast forward" size="small">
             <FastForwardRounded fontSize="small" />
           </IconButton>
         </Stack>

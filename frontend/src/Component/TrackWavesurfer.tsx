@@ -1,30 +1,36 @@
-import { useEffect, useState } from 'react'
-import WaveSurfer from 'wavesurfer.js';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+
+import WaveSurfer from 'wavesurfer.js';
+// @ts-ignore
+import Spectrogram from 'wavesurfer.js/dist/plugins/spectrogram.esm.js'
+// @ts-ignore
+import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
 
 import "./waveform.css";
 
-type TrackPlayerProps = {
-  name: string;
-  url: string;
+import { EnumHost } from '../type/EnumHost';
+import { EnumEndpoint } from '../type/EnumEndpoint';
+
+const formatTime = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60)
+  const secondsRemainder = Math.round(seconds) % 60
+  const paddedSeconds = `0${secondsRemainder}`.slice(-2)
+  return `${minutes}:${paddedSeconds}`
 }
 
-export default function TrackPlayer(props: TrackPlayerProps) {
-  const [url, setUrl] = useState("");
+type TrackPlayerProps = {
+  data?: Blob;
+  trackId?: string;
+  onClick: () => void;
+}
 
-  const [wavesurfer, setWavesurfer] = useState<WaveSurfer|null>(null)
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60)
-    const secondsRemainder = Math.round(seconds) % 60
-    const paddedSeconds = `0${secondsRemainder}`.slice(-2)
-    return `${minutes}:${paddedSeconds}`
-  }
+export default function TrackWavesurfer(props: TrackPlayerProps) {
+  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null)
 
   useEffect(() => {
-    // set once
+    if (wavesurfer) wavesurfer.destroy();
     const canvas = document.createElement('canvas');
-    // canvas.style.cssText = "display:contents;";
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
 
     // Define the waveform gradient
@@ -53,11 +59,20 @@ export default function TrackPlayer(props: TrackPlayerProps) {
       cursorColor: "#4a74a5",
       height: 80,
       hideScrollbar: true,
+      plugins: [
+        Hover.create({
+          lineColor: '#ff0000',
+          lineWidth: 2,
+          labelBackground: '#555',
+          labelColor: '#fff',
+          labelSize: '11px',
+        }),
+      ],
     });
 
     // Play/pause on click
     ws.on('interaction', () => {
-      ws.playPause()
+      ws.playPause();
     });
 
     const hover = document.querySelector('#hover') as any;
@@ -69,32 +84,55 @@ export default function TrackPlayer(props: TrackPlayerProps) {
     ws.on('decode', (duration) => (durationEl.textContent = formatTime(duration)))
     ws.on('timeupdate', (currentTime) => (timeEl.textContent = formatTime(currentTime)))
 
+    const rewindEl = document.querySelector("#track-card-rewind") as any;
+    const ffEl = document.querySelector("#track-card-fastfoward") as any;
+    const pp = document.querySelector("#track-card-play-pause") as any;
+    rewindEl.onclick = () => {
+      ws.skip(-30);
+    }
+    ffEl.onclick = () => {
+      ws.skip(30)
+    }
+    pp.onclick = () => {
+      ws.playPause();
+    }
+
+    // Initialize the Spectrogram plugin
+    ws.registerPlugin(
+      Spectrogram.create({
+        labels: true,
+        height: 80,
+        splitChannels: true,
+      }),
+    )
+
     setWavesurfer(ws);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    setUrl(props.url);
 
-    async function fetchSong() {
-      const jwt = sessionStorage.getItem("jwt");
-      const res = await axios.get(url, {
-        headers: {
-          "Authorization": `Bearer ${jwt}`
-        },
-        responseType: "blob"
-      });
-      if (wavesurfer) {
+  useEffect(() => {
+    async function loadWavesurfer() {
+      if (wavesurfer && props.trackId) {
+        const jwt = sessionStorage.getItem("jwt");
+        const url = `${EnumHost.LOCAL}${EnumEndpoint.TRACK}/${props.trackId}`;
+        const res = await axios.get(url, {
+          headers: {
+            "Authorization": `Bearer ${jwt}`
+          },
+          responseType: "blob"
+        });
+
         await wavesurfer.loadBlob(res.data);
         const cav = document.querySelectorAll('div#waveform > div') as any;
         cav[3].style.display = "none";
-
       }
     }
-    fetchSong();
-  }, [props.url, url, wavesurfer]);
+    loadWavesurfer();
+  }, [props.trackId, wavesurfer]);
 
   return (
-    <div id="waveform">
+    <div id="waveform" onClick={props.onClick}>
       <div id="time">0:00</div>
       <div id="duration">0:00</div>
       <div id="hover"></div>

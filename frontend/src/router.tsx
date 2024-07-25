@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBrowserRouter } from "react-router-dom";
 
-import Home from './Page/Home';
+import TrackPlayer from './Page/TrackPlayer';
 import NotFound from './Page/NotFound';
 import UserCreate from './Page/UserCreate';
 
@@ -40,7 +40,7 @@ export default createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <TrackPlayer />,
         loader: trackLoader
       },
       {
