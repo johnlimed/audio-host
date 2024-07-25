@@ -14,6 +14,9 @@ import authenticatedLoader from './Loader/authenticatedLoader';
 import trackLoader from './Loader/trackLoader';
 import uploadAction from './Action/uploadAction';
 import deleteAction from './Action/deleteAction';
+import User from './Page/User';
+import userLoader from './Loader/userLoader';
+import userAction from './Action/userAction';
 
 const Login = React.lazy(() => import("./Page/Login"));
 const TrackPlayer = React.lazy(() => import("./Page/TrackPlayer"));
@@ -44,6 +47,12 @@ export default createBrowserRouter([
         element: <TrackPlayer />,
         loader: trackLoader,
         action: deleteAction
+      },
+      {
+        path: "users",
+        element: <User />,
+        loader: userLoader,
+        action: userAction,
       },
       {
         path: "*",

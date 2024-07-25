@@ -19,6 +19,7 @@ import { jwtMiddleware } from "../middleware/jwtMiddleware";
 
 import { InputError } from "../error/InputError";
 import { AuthorizationError } from "../error/AuthorizationError";
+import { removeFields } from "../useCase/removeFields";
 
 const userRouter = new Router();
 const needLogin = new Router();
@@ -32,7 +33,7 @@ needLogin.get<ServerState, ServerContext>('/:id', (ctx) => {
   }
   
   const res = ctx.db.get<IUser>(COLLECTION_NAME.USER, { id: ctx.params.id });
-  ctx.body = res[0];
+  ctx.body = removeFields(res[0], ["password"]);
 });
 
 needLogin.patch<ServerState, ServerContext, ReqUserUpdate>('/:id', async (ctx) => {
@@ -41,7 +42,7 @@ needLogin.patch<ServerState, ServerContext, ReqUserUpdate>('/:id', async (ctx) =
   }
   
   const res = await handleUserUpdate(ctx.log, ctx.db, ctx.params.id, ctx.body);
-  ctx.body = res.body;
+  ctx.body = removeFields(res.body, ["password"]);
 });
 
 
@@ -52,7 +53,7 @@ adminRouter.use(jwtMiddleware(EnumRole.ADMIN));
 
 adminRouter.get<ServerState, ServerContext>('/', (ctx) => {
   const res = ctx.db.get<IUser>(COLLECTION_NAME.USER, {});
-  ctx.body = res;
+  ctx.body = removeFields(res, ["password"]);
 });
 
 adminRouter.delete<ServerState, ServerContext>('/:id', async (ctx) => {
@@ -70,7 +71,7 @@ userRouter.use(async (ctx, next) => {
 
 userRouter.post<ServerState, ServerContext, ReqUserCreate>('/', async (ctx) => {
   const res = await handleUserCreate(ctx.log, ctx.db, ctx.body);
-  ctx.body = res.body;
+  ctx.body = removeFields(res.body, ["password"]);
   ctx.status = res.status;
 });
 

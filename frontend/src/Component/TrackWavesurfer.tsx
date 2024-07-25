@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import WaveSurfer from 'wavesurfer.js';
 // @ts-ignore
-import Spectrogram from 'wavesurfer.js/dist/plugins/spectrogram.esm.js'
+// import Spectrogram from 'wavesurfer.js/dist/plugins/spectrogram.esm.js'
 // @ts-ignore
 import Hover from 'wavesurfer.js/dist/plugins/hover.esm.js'
 

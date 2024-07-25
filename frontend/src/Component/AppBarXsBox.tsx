@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useFetcher } from "react-router-dom";
+import { Link as RouterLink, useFetcher } from "react-router-dom";
 
 import Box from "@mui/material/Box";
+import Link from '@mui/material/Link';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
@@ -52,13 +53,17 @@ export default function AppBarXsBox(props: AppBarXsBoxProps) {
               return (
                 <MenuItem
                   key={`${index}-xs-menuitem`}
-                  // onClick={() => { }}
-                  href={menuItem.link}
                   sx={{ py: '6px', px: '12px' }}
                 >
-                  <Typography variant="body2" color="text.primary">
-                    {menuItem.name}
-                  </Typography>
+                  <Link
+                    to={menuItem.link}
+                    component={RouterLink}
+                    underline="none"
+                  >
+                    <Typography variant="body2" color="text.primary">
+                      {menuItem.name}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               )
             })

@@ -1,8 +1,9 @@
 import Box from "@mui/material/Box";
+import Link from '@mui/material/Link';
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 
-import { useFetcher } from "react-router-dom";
+import { Link as RouterLink, useFetcher } from "react-router-dom";
 import { Button } from "@mui/material";
 import InputFileUpload from "./ButtonUpload";
 import { isAdmin } from "../util/auth";
@@ -24,13 +25,17 @@ export default function AppBarMdBox(props: AppBarMdBoxProps) {
             return (
               <MenuItem
                 key={`${index}-md-menuitem`}
-                // onClick={() => { }}
-                href={menuItem.link}
                 sx={{ py: '6px', px: '12px' }}
               >
-                <Typography variant="body2" color="text.primary">
-                  {menuItem.name}
-                </Typography>
+                <Link
+                  to={menuItem.link}
+                  component={RouterLink}
+                  underline="none"
+                >
+                  <Typography variant="body2" color="text.primary">
+                    {menuItem.name}
+                  </Typography>
+                </Link>
               </MenuItem>
             )
           })
