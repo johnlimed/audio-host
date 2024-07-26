@@ -5,11 +5,32 @@ Material UI
 Wavesurfer js  
 React Helmet  
 
+## Pages
+Interestingly with React Router 6, they introduced Actions and Loaders which allows a simple way of data loading and interaction with the server.  
+No more redux and complicated state managements. We can simply retrieve the data required per page. 
+
+React Context was still used but minimized.  
+
+### SignUp
+A simple sign up page.  
+
 TODO: V1 password is not hashed, plain password is sent to the server.  
 We need to hash the password before sending it to the server.  
 
+### Login
+A simple login page.  
+Here I made a compromise due to the lack of time, I just stored the jwt and admin role in the sessionStorage. Ideally just the jwt.  
+Ideally, I would rather separate the admin pages in a separate app.  
+
+### TrackPlayer
+This is the home page where all users can view the audio files they uploaded, and with the interactive audio player using Wavesurfer.  
+
+### User
+This is an admin page where the administrator can manage users.  
+
 Ideally, admin and normal user sites should be made separate for the best security.  
 It is a compromise that we do frontend checks between admin and normal users. 
+
 
 # Backend
 Koa server
