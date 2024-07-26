@@ -20,7 +20,6 @@ import TrackCard from "../Component/TrackCard";
 import DenseTable from "../Component/DenseTable";
 import TrackWavesurfer from '../Component/TrackWavesurfer';
 
-
 export default function TrackPlayer() {
   const [trackIndex, setTrackIndex] = useState <number>(0);
   const [trackData, setTrackData] = useState <string[][]>([]);

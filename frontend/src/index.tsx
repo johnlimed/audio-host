@@ -7,8 +7,8 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import './index.css';
 import theme from './theme';
-import reportWebVitals from './reportWebVitals';
 import router from "./router";
+import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

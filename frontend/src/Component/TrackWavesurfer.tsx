@@ -120,9 +120,6 @@ export default function TrackWavesurfer(props: TrackPlayerProps) {
         });
 
         await wavesurfer.loadBlob(res.data);
-
-        const cav = document.querySelectorAll('div#waveform > div') as any;
-        cav[3].style.display = "none";
       }
     }
     loadWavesurfer();
