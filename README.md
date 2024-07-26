@@ -14,3 +14,6 @@ Backend server is running on localhost:3001
 
 ## Helpful docker commands
 `docker ps`
+
+## Postman
+check out the backend postman in `backend/AudioHost.postman_collection.json`
