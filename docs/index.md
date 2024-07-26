@@ -118,6 +118,8 @@ Username taken. Create a new user with another username.
 Using [argon2](https://github.com/ranisalt/node-argon2)
 
 ## Endpoints
+This is no longer maintained, use the postman to view the automatically generated documentation.  
+
 ### POST /auth/login
 If login is called with a jwt token set in the authentication header, the token will be checked and if still valid, the user will be logged in.  
 ```javascript
