@@ -74,12 +74,9 @@ Roles are retrieved on startup and stored in ctx.state. Role middleware attaches
 
 
 ## Errors
-### InputError
-If reason is given, it will be included in the error message. All error messages start with Input error.
-
-### UserExistError
+### AlreadyExistError
 status: 400
-Username taken. Create a new user with another username. 
+A type of InputError
 
 ### AuthenticationError
 status: 401
@@ -100,12 +97,25 @@ status: 401
 message: Unsupported authencation method  
 Check that authentication method is set to bearer
 
+### AuthorizationError  
+status: 401  
+User does not have sufficient permissions to access the page or the endpoint.  
+
+### InputError
+status: 400
+If reason is given, it will be included in the error message. All error messages start with Input error.
+
+### UnexpectedServerError  
+status: 500  
+This is a catch all for unexpected server errors. Contact us.  
+
+### UserExistError
+status: 400
+Username taken. Create a new user with another username. 
 
 
 ## Authentication
 Using [argon2](https://github.com/ranisalt/node-argon2)
-
-
 
 ## Endpoints
 ### POST /auth/login
