@@ -1,2 +1,0 @@
-#waveform{cursor:pointer;position:relative}#hover{background:#ffffff80;height:100%;left:0;mix-blend-mode:overlay;opacity:0;pointer-events:none;position:absolute;top:0;transition:opacity .2s ease;width:0;z-index:10}#waveform:hover #hover{opacity:1}#duration,#time{background:#000000bf;color:#ddd;font-size:11px;margin-top:-1px;padding:2px;position:absolute;top:50%;transform:translateY(-50%);z-index:11}#time{left:0}#duration{right:0}
-/*# sourceMappingURL=600.0c8ae09e.chunk.css.map*/

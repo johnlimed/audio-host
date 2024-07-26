@@ -1,21 +1,28 @@
 FROM node:20 AS base
-WORKDIR /usr/local/app
+WORKDIR /
 
 FROM base AS frontend
-COPY frontend/build ./frontend
+COPY frontend/src frontend/src
+COPY frontend/public frontend/public
+COPY frontend/package.json frontend/package.json
+COPY frontend/package-lock.json frontend/package-lock.json
+WORKDIR /frontend
+RUN npm install
+
+FROM frontend AS frontend-build
+RUN npm run build
 
 FROM frontend-build AS frontend-serve
 EXPOSE 3000
-CMD ["npx", "serve", "-s", "./frontend"]
 
 FROM base AS backend
-COPY backend/package.json backend/package-lock.json ./
-RUN --mount=type=bind,source=backend/package.json,target=backend/package.json \
-  --mount=type=bind,source=backend/package-lock.json,target=backend/package-lock.json \
-  --mount=type=cache,target=/root/.npm \
+WORKDIR /backend
+COPY backend/package.json ./
+COPY backend/package-lock.json ./
+RUN --mount=type=cache,target=/root/.npm \
   npm install
-COPY ./backend ./
+COPY backend/src ./
 
 FROM backend AS backend-serve
 EXPOSE 3001
-CMD ["npx", "tsx", "index.ts"]
+USER user

@@ -2,12 +2,16 @@ services:
   backend:
     build:
       context: ./
-      target: backend-serve
+      target: backend
     ports:
       - 3001:3001
+    command: npx tsx index.ts
   frontend:
     build:
       context: ./
-      target: frontend-build
+      target: frontend
     ports:
       - 3000:3000
+    depends_on:
+      - backend
+    command: npx serve -s build
