@@ -11,12 +11,38 @@
 			"item": [
 				{
 					"name": "User Create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"createdUserId\", responseJson.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"normal user 2\",\n    \"password\": \"123\",\n    \"name\": \"Jane doe\",\n    \"admin\": false\n}",
+							"raw": "{\n    \"username\": \"{{createdUsername}}\",\n    \"password\": \"{{createdUserPassword}}\",\n    \"name\": \"Jane doe\",\n    \"admin\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -39,11 +65,21 @@
 				{
 					"name": "User Create Already Exist",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"123\"\n}",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"123\",\n    \"name\": \"john doe\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -66,11 +102,21 @@
 				{
 					"name": "User Update",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"john update3\"\n}",
+							"raw": "{\n    \"name\": \"john update2\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -147,6 +193,64 @@
 						"description": "Register user"
 					},
 					"response": []
+				},
+				{
+					"name": "User Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/{{createdUserId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"{{createdUserId}}"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "User Delete Manual",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/4b67eba6-03f5-46d3-89bc-d35e19064e9a",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"4b67eba6-03f5-46d3-89bc-d35e19064e9a"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
 				}
 			]
 		},
@@ -169,6 +273,9 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -210,11 +317,58 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n    \"username\": \"normal user\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth Login Created User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"createdUserToken\", responseJson.jwt);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{createdUsername}}\",\n    \"password\": \"{{createdUserPassword}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -599,6 +753,388 @@
 			]
 		},
 		{
+			"name": "Track",
+			"item": [
+				{
+					"name": "Track Get Own",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/track",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Track Play Own Created",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{createdUserToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/track/{{createdTrackId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track",
+								"{{createdTrackId}}"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Track Play Own Manual",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/track/283a40de-527d-450f-b686-8daf1c21ead8",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track",
+								"283a40de-527d-450f-b686-8daf1c21ead8"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Tracks Admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/track/admin/",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track",
+								"admin",
+								""
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Track Upload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"createdTrackId\", responseJson.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/johnlim/Repos/audio-host/backend/Fast Sm.mp3"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/track",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Track Upload Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"createdTrackId\", responseJson.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/johnlim/Repos/audio-host/backend/Fast Sm.mp3"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/track",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Track Upload Created User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();",
+									"pm.collectionVariables.set(\"createdTrackId\", responseJson.id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{createdUserToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/johnlim/Repos/audio-host/backend/Fast Sm.mp3"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/track",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Track Upload Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/johnlim/Repos/audio-host/backend/Fast Sm.mp3"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/track",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Track Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/track/{{createdTrackId}}",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track",
+								"{{createdTrackId}}"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				},
+				{
+					"name": "Track Delete Manual",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{userToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/track/6e0793aa-a659-47f9-a6fb-4357837ced6f",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"track",
+								"6e0793aa-a659-47f9-a6fb-4357837ced6f"
+							]
+						},
+						"description": "Register user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Role Update",
 			"request": {
 				"method": "PATCH",
@@ -669,7 +1205,7 @@
 	"variable": [
 		{
 			"key": "host",
-			"value": "localhost:3000",
+			"value": "localhost:3001",
 			"type": "string"
 		},
 		{
@@ -704,6 +1240,30 @@
 		{
 			"key": "createdRoleId",
 			"value": "nil",
+			"type": "string"
+		},
+		{
+			"key": "createdTrackId",
+			"value": "nil"
+		},
+		{
+			"key": "createdUserId",
+			"value": "nil",
+			"type": "string"
+		},
+		{
+			"key": "createdUserToken",
+			"value": "nil",
+			"type": "string"
+		},
+		{
+			"key": "createdUsername",
+			"value": "normal user 3",
+			"type": "string"
+		},
+		{
+			"key": "createdUserPassword",
+			"value": "123456",
 			"type": "string"
 		}
 	]
