@@ -6,6 +6,8 @@ COPY frontend/src frontend/src
 COPY frontend/public frontend/public
 COPY frontend/package.json frontend/package.json
 COPY frontend/package-lock.json frontend/package-lock.json
+COPY frontend/config-overrides.js frontend/config-overrides.js
+COPY frontend/tsconfig.json frontend/tsconfig.json
 WORKDIR /frontend
 RUN npm install
 RUN npm run build

@@ -1,3 +1,4 @@
+import path from "path";
 import Router from "@koa/router";
 import multer from '@koa/multer';
 import fs, { promises as fsPromises } from "fs";
@@ -57,7 +58,7 @@ userRouter.get<ServerState, ServerContext>("/:id", (ctx) => {
   if (tracks[0].ownerId !== ctx.state.jwt.id) throw new AuthorizationError();
 
   ctx.response.set('content-type', 'application/json');
-  ctx.body = fs.createReadStream(tracks[0].filepath);
+  ctx.body = fs.createReadStream(path.resolve(__dirname, `../${tracks[0].filepath}`));
 });
 
 userRouter.delete<ServerState, ServerContext>("/:id", async (ctx) => {
@@ -69,7 +70,7 @@ userRouter.delete<ServerState, ServerContext>("/:id", async (ctx) => {
   if (tracks[0].ownerId !== ctx.state.jwt.id) throw new AuthorizationError();
 
   ctx.db.delete(COLLECTION_NAME.TRACK, id);
-  await fsPromises.rm(tracks[0].filepath);
+  await fsPromises.rm(path.resolve(__dirname, `../${tracks[0].filepath}`));
 });
 
 /**
