@@ -1,10 +1,9 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "start": "npx tsx index.ts",
-    "start-dev": "tsc-watch --onSuccess 'tsx index.ts'",
+    "start": "npx tsx src/index.ts",
+    "start-dev": "tsc-watch --onSuccess 'tsx src/index.ts'",
     "test": "jest"
   },
   "keywords": [],

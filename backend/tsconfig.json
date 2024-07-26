@@ -14,7 +14,7 @@
         "esModuleInterop": true,
         "preserveConstEnums": true,
         "target": "es2017",
-        "outDir": "lib",
+        "outDir": "src/lib",
         "sourceMap": true
     },
     "include": [
